@@ -60,6 +60,26 @@ exports.updatePassword = function(password, email) {
 
 // PLANTS
 
+exports.addPlant = function(name, type, user_id) {
+    return db.query(
+        `INSERT INTO plants (name, type, user_id)
+        VALUES ($1, $2, $3)
+        RETURNING id`,
+        [name, type, user_id]
+    );
+};
+
+exports.getPlants = function(user_id) {
+    return db
+        .query(
+            `SELECT *
+        FROM plants
+        WHERE user_id = $1`,
+            [user_id]
+        )
+        .then(({ rows }) => rows);
+};
+
 exports.updateImage = function(image, id) {
     return db.query(
         `UPDATE plants
