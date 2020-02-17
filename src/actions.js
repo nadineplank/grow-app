@@ -1,47 +1,46 @@
 import axios from "./axios";
 
-export async function receiveFriendsWannabes() {
-    const { data } = await axios.get("/friends-wannabe");
+export async function getPlants() {
+    const { data } = await axios.get("/plants");
 
     return {
-        type: "RECEIVE_FRIENDS",
-        friends: data
+        type: "GET_PLANTS",
+        plants: data
     };
 }
 
-export async function acceptFriendRequest(id) {
-    await axios.post("/accept-friend-request/" + id);
+export async function addPlant(values) {
+    console.log("values from addPlant: ", values);
+    const { data } = await axios.post("/plants", values);
+
     return {
-        type: "ACCEPT_FRIEND_REQ",
-        id
+        type: "ADD_PLANTS",
+        plants: data
     };
 }
 
-export async function endFriendship(id) {
-    await axios.post("/end-friendship/" + id);
+export async function getUser() {
+    const { data } = await axios.get("/getUser");
+
     return {
-        type: "END_FRIENDSHIP",
-        id
+        type: "GET_USER",
+        user: data
     };
 }
 
-export function chatMessages(msgs) {
+export async function updateImage(formData) {
+    const { data } = await axios.post("/upload", formData);
+
     return {
-        type: "GET_MESSAGES",
-        chatMessages: msgs
+        type: "UPDATE_IMAGE",
+        image: data
     };
 }
 
-export function chatMessage(data) {
-    return {
-        type: "INSERT_MESSAGE",
-        message: data
-    };
-}
-
-export function setId(id) {
-    return {
-        type: "SET_ID",
-        id: id
-    };
-}
+// export async function acceptFriendRequest(id) {
+//     await axios.post("/accept-friend-request/" + id);
+//     return {
+//         type: "ACCEPT_FRIEND_REQ",
+//         id
+//     };
+// }

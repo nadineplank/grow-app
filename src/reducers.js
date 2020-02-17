@@ -1,47 +1,27 @@
 export default function reducer(state = {}, action) {
-    if (action.type === "RECEIVE_FRIENDS") {
+    if (action.type === "GET_PLANTS") {
         state = {
             ...state,
-            friends: action.friends
+            plants: action.plants
         };
     }
-    if (action.type == "ACCEPT_FRIEND_REQ") {
+    if (action.type === "GET_USER") {
         state = {
             ...state,
-            friends: state.friends.map(friend => {
-                if (friend.id == action.id) {
-                    return {
-                        ...friend,
-                        accepted: action.type == "ACCEPT_FRIEND_REQ"
-                    };
-                }
-                return friend;
-            })
+            user: action.user
         };
     }
-    if (action.type == "END_FRIENDSHIP") {
+    if (action.type === "ADD_PLANT") {
         state = {
             ...state,
-            friends: state.friends.filter(friend => friend.id != action.id)
+            plant: action.plant
         };
     }
 
-    if (action.type === "GET_MESSAGES") {
-        state = {
-            chatMessages: action.chatMessages
-        };
-    }
-    if (action.type === "INSERT_MESSAGE") {
+    if (action.type === "UPDATE_IMAGE") {
         state = {
             ...state,
-            chatMessages: state.chatMessages.concat(action.message)
-        };
-        console.log("state", state);
-    }
-    if (action.type === "SET_ID") {
-        state = {
-            ...state,
-            id: action.id
+            image: state.image
         };
     }
 
