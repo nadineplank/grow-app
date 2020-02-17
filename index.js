@@ -207,7 +207,7 @@ app.post("/plants", async (req, res) => {
 
     try {
         const data = await addPlant(name, type, user_id);
-        console.log("storing plant worked: ", data);
+        console.log("storing plant worked: ", data.id);
         res.json(data);
     } catch (err) {
         console.log("error in addPlant: ", err);
