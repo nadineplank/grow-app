@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
+const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 const compression = require("compression");
-const bcrypt = require("./bcrypt");
+const { hash, compare } = require("./bcrypt");
 
 const {
     addUser,
@@ -9,10 +11,11 @@ const {
     verify,
     updatePassword,
     storeCode,
-    updateImage
+    updateImage,
+    addPlant,
+    getPlants
 } = require("./db");
 
-const csurf = require("csurf");
 const { requireLoggedOutUser } = require("./middleware");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
@@ -35,26 +38,22 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-pp.use(express.json());
+app.use(express.json());
 
-const cookieSessionMiddleware = cookieSession({
-    secret: secrets.SESSION_SECRET,
-    maxAge: 1000 * 60 * 60 * 24 * 90
-});
-
-app.use(cookieSessionMiddleware);
-
-io.use(function(socket, next) {
-    cookieSessionMiddleware(socket.request, socket.request.res, next);
-});
-
-app.use(csurf());
+app.use(
+    cookieSession({
+        secret: "I'm a secret",
+        maxAge: 1000 * 60 * 60 * 24 * 14
+    })
+);
 
 app.use(
     express.urlencoded({
         extended: false
     })
 );
+
+app.use(csurf());
 
 /////// DO NOT TOUCH
 
@@ -91,163 +90,173 @@ app.use(function(req, res, next) {
 
 app.get("/register", function(req, res) {
     if (req.session.userId) {
-        res.redirect("/");
+        res.redirect("/login");
     } else {
         res.sendFile(__dirname + "/index.html");
     }
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
     let first = req.body.first,
         last = req.body.last,
-        email = req.body.email;
+        email = req.body.email,
+        password = req.body.password;
 
-    ///// hash the submitted password
-    bcrypt.hash(req.body.password).then(hashedPass => {
-        // put the first, last, email and hashed password into the users table
-        addUser(first, last, email, hashedPass)
-            .then(function(data) {
-                // upon success put the user's id into req.session and redirect to home
-                req.session.userId = data.rows[0].id;
-                req.session.email = data.rows[0].email;
-                res.json(data.rows[0]);
-            })
-            // upon failure, re-render the register template with an error message
-            .catch(function(err) {
-                console.log("err in register: ", err);
-                res.sendStatus(500);
-            });
-    });
+    try {
+        const hashedPass = await hash(password);
+
+        const data = await addUser(first, last, email, hashedPass);
+        req.session.userId = data.rows[0].id;
+        req.session.email = data.rows[0].email;
+        res.json({ success: true });
+    } catch (err) {
+        console.log("err in register: ", err);
+        res.sendStatus(500);
+    }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     let email = req.body.email,
         password = req.body.password;
-    // - find the info from the user's table by the submitted email address
-    getUser(email)
-        .then(data => {
-            // - compare the submitted password to the saved hashed password from the database using bcrypt's compare
-            bcrypt.compare(password, data[0].password).then(result => {
-                if (result) {
-                    req.session.userId = data[0].id;
-                    req.session.email = data[0].email;
-                    res.json({ success: true });
-                } else {
-                    // - if there is no match, re-render the template with an error message
-                    res.json({ success: false });
-                }
-            });
-        })
-        .catch(err => {
-            console.log("error in login: ", err);
-            res.json({
-                success: false
-            });
+
+    try {
+        const data = await getUser(email);
+        const result = compare(password, data[0].password);
+
+        if (result) {
+            req.session.userId = data[0].id;
+            req.session.email = data[0].email;
+            res.json({ success: true });
+        } else {
+            // - if there is no match, re-render the template with an error message
+            res.json({ success: false });
+        }
+    } catch (err) {
+        console.log("error in login: ", err);
+        res.json({
+            success: false
         });
+    }
 });
 
 app.get("/logout", (req, res) => {
     (req.session.userId = null), res.redirect("/");
 });
 
-app.post("/reset", requireLoggedOutUser, (req, res) => {
+app.post("/reset", requireLoggedOutUser, async (req, res) => {
     const secretCode = cryptoRandomString({ length: 6 });
     let email = req.body.email,
         message = "Here is your code for reseting: " + secretCode;
 
-    getUser(email)
-        .then(data => {
-            if (data) {
-                res.json(data[0]);
-                sendEmail(email, message, "Reset your password")
-                    .then(() => {
-                        console.log("SendEmail was successfull: ");
-                    })
-                    .catch(err => {
-                        console.log("error in sendEmail: ", err);
-                    });
-
-                storeCode(email, secretCode).then(result => {
-                    console.log("StoreCode worked!: ", result);
-                });
-            } else {
-                res.json(false);
-            }
-        })
-        .catch(err => {
-            console.log("Error in reset: ", err);
+    try {
+        const data = await getUser(email);
+        if (data) {
+            res.json(data[0]);
+            await sendEmail(email, message, "Reset your password");
+            await storeCode(email, secretCode);
+        } else {
             res.json(false);
-        });
+        }
+    } catch (err) {
+        console.log("Error in reset: ", err);
+        res.json(false);
+    }
 });
 
-app.post("/verify", requireLoggedOutUser, (req, res) => {
+app.post("/verify", requireLoggedOutUser, async (req, res) => {
     let email = req.body.email,
         code = req.body.code,
         password = req.body.password;
 
-    verify(email)
-        .then(data => {
-            if (data[0].code === code) {
-                bcrypt
-                    .hash(password)
-                    .then(hashedPass => {
-                        updatePassword(email, hashedPass)
-                            .then(function(data) {
-                                res.json(data);
-                            })
-                            .catch(function(err) {
-                                console.log("err in setNewPassword: ", err);
-                                res.json(false);
-                            });
-                    })
-                    .catch(err => {
-                        console.log("Error in bcyrpt: ", err);
-                        res.json(false);
-                    });
-            } else {
-                res.json(false);
-            }
-        })
-        .catch(err => {
-            console.log("Error in verify: ", err);
-        });
+    try {
+        const data = await verify(email);
+        if (data[0].code === code) {
+            const hashedPass = await hash(password);
+            const data = await updatePassword(email, hashedPass);
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    } catch (err) {
+        console.log("Error in verify: ", err);
+    }
 });
 
-app.get("/user", (req, res) => {
+app.get("/user", async (req, res) => {
     let email = req.session.email;
 
-    getUser(email)
-        .then(data => {
-            res.json({
-                first: data[0].first,
-                last: data[0].last,
-                id: data[0].id
-            });
-        })
-        .catch(err => {
-            console.log("error in GET /user: ", err);
+    try {
+        const data = await getUser(email);
+        res.json({
+            first: data[0].first,
+            last: data[0].last,
+            id: data[0].id
         });
+    } catch (err) {
+        console.log("error in GET /user: ", err);
+    }
 });
 
-app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+// PLANTS
+
+app.post("/plants", async (req, res) => {
+    let name = req.body.name,
+        type = req.body.type,
+        user_id = req.session.userId;
+    console.log("req.body from POST /plants:", req.body);
+
+    try {
+        const data = await addPlant(name, type, user_id);
+        console.log("storing plant worked: ", data);
+        res.json(data);
+    } catch (err) {
+        console.log("error in addPlant: ", err);
+    }
+});
+
+app.get("/plants", async (req, res) => {
+    let user_id = req.session.userId;
+
+    try {
+        const data = await getPlants(user_id);
+        console.log("data from getPlants: ", data);
+        res.json({
+            name: data[0].name,
+            id: data[0].id,
+            image: data[0].image || "/default.png"
+        });
+    } catch (err) {
+        console.log("error in getPlants: ", err);
+    }
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
     let file = s3Url + req.file.filename,
         id = req.session.userId;
 
-    updateImage(file, id)
-        .then(data => {
-            res.json(data.rows[0].image);
-        })
-        .catch(err => {
-            console.log("Error in updateImage: ", err);
-            res.sendStatus(500);
-            res.json(false);
-        });
+    try {
+        const data = await updateImage(file, id);
+        res.json(data.rows[0].image);
+    } catch (err) {
+        console.log("Error in updateImage: ", err);
+        res.sendStatus(500);
+        res.json(false);
+    }
 });
 
+//////////
+
+////// HAS TO BE THE LAST ROUTE ///////
 app.get("*", function(req, res) {
-    res.sendFile(__dirname + "/index.html");
+    if (!req.session.userId) {
+        res.redirect("/register");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
 });
 
-server.listen(8080, function() {
+//////////////////////////////////////
+
+app.listen(8080, function() {
     console.log("I'm listening.");
 });
