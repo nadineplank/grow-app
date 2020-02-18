@@ -60,12 +60,12 @@ exports.updatePassword = function(password, email) {
 
 // PLANTS
 
-exports.addPlant = function(name, type, user_id) {
+exports.addPlant = function(name, type, location, user_id) {
     return db.query(
-        `INSERT INTO plants (name, type, user_id)
-        VALUES ($1, $2, $3)
+        `INSERT INTO plants (name, type, location, user_id)
+        VALUES ($1, $2, $3, $4)
         RETURNING id`,
-        [name, type, user_id]
+        [name, type, location, user_id]
     );
 };
 
@@ -88,4 +88,23 @@ exports.updateImage = function(image, id) {
         RETURNING image`,
         [image, id]
     );
+};
+
+exports.deletePlant = function(id) {
+    return db.query(
+        `DELETE FROM plants
+        WHERE id = $1
+         `,
+        [id]
+    );
+};
+
+exports.getIndividualPlant = function(id) {
+    return db
+        .query(
+            `SELECT * FROM plants
+        WHERE id = $1`,
+            [id]
+        )
+        .then(({ rows }) => rows);
 };

@@ -1,0 +1,40 @@
+.add-plant-nav {
+    display: flex;
+    position: absolute;
+    top: 0;
+    margin: 20px;
+    width: 100vw;
+}
+
+.add-plant-container {
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-plant-header {
+    font-size: 32px;
+    top: 110px;
+    position: absolute;
+}
+
+.add-plant-button {
+}
+
+.upload-container {
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid;
+    height: 250px;
+    justify-content: center;
+}

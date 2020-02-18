@@ -1,0 +1,112 @@
+.header {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.container {
+}
+
+.plant-container {
+    overflow-x: scroll;
+    display: flex;
+    justify-content: flex-start;
+    -webkit-touch-callout: none !important;
+}
+
+.plant-box {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 110px;
+    margin: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+}
+
+.wobble {
+    animation: wobble 0.2s infinite;
+    -webkit-animation: wobble 0.2s infinite;
+    -moz-animation-duration: 0.2s;
+    -moz-animation-name: wobble;
+    -moz-animation-iteration-count: infinite;
+    -webkit-transform: rotate(-1deg);
+    -moz-transform: rotate(-1deg);
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 110px;
+    margin: 30px;
+    background-color: #622f4b;
+    border-radius: 10px;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+}
+
+.plant-pic {
+    height: 120px;
+    width: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.overview-name {
+}
+
+.delete-plant-icon {
+    background-color: grey;
+    margin: 25px;
+    position: absolute;
+    z-index: 4;
+    font-size: 22px;
+    color: lightgrey;
+    border-radius: 50%;
+    border: lightgrey 0.5px solid;
+}
+
+#add-box {
+    background-color: #622f4b;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+#add {
+    text-align: center;
+    background-color: #622f4b;
+    color: white;
+    font-size: 25px;
+}
+
+@keyframes wobble {
+    0% {
+        transform: rotate(-1deg);
+    }
+    50% {
+        transform: rotate(1deg);
+    }
+}
+
+@-webkit-keyframes wobble {
+    0% {
+        -webkit-transform: rotate(-1deg);
+    }
+    50% {
+        -webkit-transform: rotate(1deg);
+    }
+}
+
+@-moz-keyframes wobble {
+    0% {
+        -moz-transform: rotate(-1deg);
+    }
+    50% {
+        -moz-transform: rotate(1deg);
+    }
+}

@@ -7,7 +7,7 @@ import useStatefulFields from "../hooks/useStatefulFields";
 
 export default function ResetPassword() {
     const [values, handleChange] = useStatefulFields();
-    const [step, setStep] = useState();
+    const [step, setStep] = useState(1);
     const [state, setState] = useState();
     // const [handleSubmit, error] = useNewPassword("/verify", values);
 

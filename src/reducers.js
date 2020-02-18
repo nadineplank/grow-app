@@ -5,6 +5,12 @@ export default function reducer(state = {}, action) {
             plants: action.plants
         };
     }
+    if (action.type === "GET_INDIVIDUAL_PLANT") {
+        state = {
+            ...state,
+            plant: action.plant
+        };
+    }
     if (action.type === "GET_USER") {
         state = {
             ...state,
@@ -17,11 +23,17 @@ export default function reducer(state = {}, action) {
             plant: action.plant
         };
     }
+    if (action.type === "DELETE_PLANT") {
+        state = {
+            ...state,
+            plant: action.plant
+        };
+    }
 
     if (action.type === "UPDATE_IMAGE") {
         state = {
             ...state,
-            image: state.image
+            image: action.image
         };
     }
 

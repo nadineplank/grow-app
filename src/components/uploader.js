@@ -1,30 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateImage } from "../actions";
-import useStatefulFields from "../hooks/useStatefulFields";
+import { Link } from "react-router-dom";
 
 export default function Uploader() {
-    const [file, handleChange] = useStatefulFields();
+    const [files, setFiles] = useState({});
+    const [error, setError] = useState(false);
     const dispatch = useDispatch();
 
-    const upload = e => {
+    async function handleChange(e) {
+        setFiles(e.target.files[0]);
+    }
+
+    async function upload(e) {
         e.preventDefault();
         var formData = new FormData();
-        formData.append("file", file);
-        dispatch(updateImage(formData));
-    };
+        formData.append("file", files);
+        const data = await dispatch(updateImage(formData));
+        if (!data) {
+            setError(true);
+        } else {
+            location.replace("/");
+        }
+    }
 
     return (
-        <div className="upload">
-            <input
-                name="file"
-                type="file"
-                accept="image/*"
-                onChange={handleChange}
-            />
-            <button id="upload" onClick={e => upload(e)}>
+        <div className="upload-container">
+            {error && <p className="error">Ooops, something went wrong!</p>}
+            <div className="upload">
+                <input
+                    name="file"
+                    type="file"
+                    accept="image/*"
+                    onChange={e => handleChange(e)}
+                />
+            </div>
+            <button
+                className="add-plant-button"
+                id="upload"
+                onClick={e => upload(e)}
+            >
                 UPLOAD
             </button>
+
+            <Link to="/">
+                <button className="add-plant-button" id="upload">
+                    SKIP
+                </button>
+            </Link>
         </div>
     );
 }

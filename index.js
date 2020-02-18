@@ -13,7 +13,9 @@ const {
     storeCode,
     updateImage,
     addPlant,
-    getPlants
+    getPlants,
+    deletePlant,
+    getIndividualPlant
 } = require("./db");
 
 const { requireLoggedOutUser } = require("./middleware");
@@ -21,6 +23,8 @@ const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
+
+app.use(express.static("./public"));
 
 app.use(compression());
 
@@ -40,6 +44,7 @@ if (process.env.NODE_ENV != "production") {
 
 app.use(express.json());
 
+// cookies
 app.use(
     cookieSession({
         secret: "I'm a secret",
@@ -53,10 +58,15 @@ app.use(
     })
 );
 
+/// csurf
 app.use(csurf());
 
-/////// DO NOT TOUCH
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
+/////// DO NOT TOUCH -  multer file upload ////////
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
@@ -72,8 +82,6 @@ const diskStorage = multer.diskStorage({
     }
 });
 
-/////// DO NOT TOUCH
-
 const uploader = multer({
     storage: diskStorage,
     limits: {
@@ -81,12 +89,9 @@ const uploader = multer({
     }
 });
 
-app.use(express.static("./public"));
+/////// DO NOT TOUCH
 
-app.use(function(req, res, next) {
-    res.cookie("mytoken", req.csrfToken());
-    next();
-});
+///////////   AUTH    ////////
 
 app.get("/register", function(req, res) {
     if (req.session.userId) {
@@ -137,10 +142,6 @@ app.post("/login", async (req, res) => {
             success: false
         });
     }
-});
-
-app.get("/logout", (req, res) => {
-    (req.session.userId = null), res.redirect("/");
 });
 
 app.post("/reset", requireLoggedOutUser, async (req, res) => {
@@ -202,12 +203,12 @@ app.get("/user", async (req, res) => {
 app.post("/plants", async (req, res) => {
     let name = req.body.name,
         type = req.body.type,
+        location = req.body.location,
         user_id = req.session.userId;
-    console.log("req.body from POST /plants:", req.body);
 
     try {
-        const data = await addPlant(name, type, user_id);
-        console.log("storing plant worked: ", data.id);
+        const data = await addPlant(name, type, location, user_id);
+        req.session.plantId = data.rows[0].id;
         res.json(data);
     } catch (err) {
         console.log("error in addPlant: ", err);
@@ -219,32 +220,59 @@ app.get("/plants", async (req, res) => {
 
     try {
         const data = await getPlants(user_id);
-        console.log("data from getPlants: ", data);
-        res.json({
-            name: data[0].name,
-            id: data[0].id,
-            image: data[0].image || "/default.png"
-        });
+
+        res.json(data);
     } catch (err) {
         console.log("error in getPlants: ", err);
     }
 });
 
-app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
-    let file = s3Url + req.file.filename,
-        id = req.session.userId;
-
+app.get("/plant/:id.json", async (req, res) => {
+    let id = req.params.id;
+    console.log("id from getIndividualPlant: ", id);
     try {
-        const data = await updateImage(file, id);
-        res.json(data.rows[0].image);
+        const data = await getIndividualPlant(id);
+        console.log("data from GET getIndividualPlant: ", data);
+        res.json(data);
     } catch (err) {
-        console.log("Error in updateImage: ", err);
-        res.sendStatus(500);
-        res.json(false);
+        console.log("err in GET getIndividualPlant", err);
     }
 });
 
-//////////
+app.post("/delete-plant", async (req, res) => {
+    const id = req.body.id;
+    console.log("req.body from delete: ", req.body);
+    try {
+        await deletePlant(id);
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log("error in deletePlant: ", err);
+    }
+});
+
+/// IMAGE UPLOAD //
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const file = s3Url + req.file.filename,
+        id = req.session.plantId;
+
+    if (req.file) {
+        updateImage(file, id)
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log("Error in updateImage: ", err);
+            });
+    }
+});
+
+////////// LOGOUT /////////
+
+app.get("/logout", (req, res) => {
+    (req.session.userId = null), res.redirect("/");
+});
 
 ////// HAS TO BE THE LAST ROUTE ///////
 app.get("*", function(req, res) {

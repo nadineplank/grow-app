@@ -20,7 +20,7 @@ exports.upload = (req, res, next) => {
     }
     const { filename, mimetype, size, path } = req.file;
     s3.putObject({
-        Bucket: "np-imageboard",
+        Bucket: "np-grow-app",
         ACL: "public-read",
         Key: filename,
         Body: fs.createReadStream(path),
