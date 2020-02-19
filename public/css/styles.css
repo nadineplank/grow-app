@@ -25,5 +25,18 @@ body {
 .nav {
     font-size: 40px;
     text-decoration: none;
-    color: black;
+    color: grey;
+}
+
+.arrow-left {
+    color: goldenrod;
+    font-size: 25px;
+}
+
+.upload-container {
+    position: absolute;
+    background: whitesmoke;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
 }

@@ -1,0 +1,39 @@
+.plant-container {
+}
+
+.plant-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100vw;
+    justify-content: space-between;
+    justify-content: space-between;
+}
+
+.name-type {
+    display: flex;
+    flex-direction: column;
+}
+
+.plant-name {
+    align-self: flex-end;
+    font-size: 30px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.plant-type {
+}
+
+.plant-image {
+    height: 200px;
+}
+
+.plant-information {
+}
+
+.location {
+}
+
+.date {
+}
