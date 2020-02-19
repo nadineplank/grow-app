@@ -11,10 +11,11 @@ export default function Overview() {
 
     useEffect(() => {
         dispatch(getPlants());
-    }, []);
+    }, [plants]);
 
     function onClick(e) {
-        location.assign(`/plant/${e.currentTarget.id}`);
+        const id = e.currentTarget.id;
+        location.assign(`/plant/${id}`);
     }
 
     function onHold() {
@@ -22,14 +23,13 @@ export default function Overview() {
     }
 
     function remove(e) {
-        console.log("click detected");
         dispatch(deletePlant(e.currentTarget.id));
     }
 
     if (!plants) {
         return null;
     }
-    console.log(plants);
+
     const plant = (
         <div className="plant-container">
             {plants.map(plant => (
