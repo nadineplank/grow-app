@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { deletePlant } from "../actions";
 import { Link } from "react-router-dom";
 import Holdable from "./holdable";
+import Plant from "./plant";
+// import AddPlant from "./add-plant";
 
 export default function Overview() {
     const dispatch = useDispatch();
     const plants = useSelector(state => state.plants);
-    const [wobble, setWobble] = useState("false");
+    const [wobble, setWobble] = useState(false);
+    const [plantPage, setPlantPage] = useState(false);
 
     useEffect(() => {}, [plants]);
 
     function onClick(e) {
-        const id = e.currentTarget.id;
-        location.assign(`/plant/${id}`);
+        console.log("clicked: ", e);
+        setPlantPage(e);
     }
 
     function onHold() {
@@ -21,7 +24,7 @@ export default function Overview() {
     }
 
     function remove(e) {
-        dispatch(deletePlant(e.currentTarget.id));
+        dispatch(deletePlant(e));
     }
 
     if (!plants) {
@@ -29,10 +32,14 @@ export default function Overview() {
     }
 
     const plant = (
-        <div className="plant-container">
+        <div className="plants-container">
             {plants.map(plant => (
                 <Holdable
-                    onClick={wobble === true ? remove : onClick}
+                    onClick={
+                        wobble === true
+                            ? () => remove(plant.id)
+                            : () => onClick(plant)
+                    }
                     onHold={onHold}
                     id={plant.id}
                     key={plant.id}
@@ -75,6 +82,7 @@ export default function Overview() {
                     {!!plants.length && plant}
                 </div>
             </div>
+            {plantPage && <Plant plantInfo={plantPage} />}
         </div>
     );
 }

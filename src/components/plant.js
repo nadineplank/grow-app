@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
-
+import WaterSchedule from "./water-schedule";
 import Uploader from "./uploader";
-import axios from "../axios";
+// import axios from "../axios";
 
-export default function Plant(props) {
-    const [plant, setPlant] = useState();
+export default function Plant({ plantInfo }) {
+    // const [plant, setPlant] = useState();
+    const [schedule, setSchedule] = useState(false);
     const [uploader, setUploader] = useState(false);
-    const id = props.match.params.id;
+    // const id = props.match.params.id;
     const url = "updatePlantImage";
     const scene = "plant";
 
     useEffect(() => {
-        (async () => {
-            let { data } = await axios.get(`/plant/${id}.json`);
-            setPlant(data);
-        })();
-    }, [plant]);
+        // (async () => {
+        //     let { data } = await axios.get(`/plant/${id}.json`);
+        //     setPlant(data);
+        // })();
+    }, [plantInfo]);
 
-    if (!plant) {
+    if (!plantInfo) {
         return null;
     }
     return (
@@ -25,11 +26,11 @@ export default function Plant(props) {
             <div>
                 <div className="plant-header">
                     <div className="name-type">
-                        <p className="plant-name">{plant.name}</p>
-                        <p className="plant-type">{plant.type}</p>
+                        <p className="plant-name">{plantInfo.name}</p>
+                        <p className="plant-type">{plantInfo.type}</p>
                     </div>
 
-                    <img className="plant-image" src={plant.image} />
+                    <img className="plant-image" src={plantInfo.image} />
                     <i
                         className="fas fa-camera"
                         onClick={() => setUploader(true)}
@@ -37,24 +38,36 @@ export default function Plant(props) {
                 </div>
                 <div className="plant-information">
                     <div className="location">
-                        <p>{plant.location}</p>
+                        <p>{plantInfo.location}</p>
                         <p>LOCATION</p>
                     </div>
                     <div className="date">
-                        <p>{plant.added_at}</p>
+                        <p>{plantInfo.added_at}</p>
                         <p>YOURS SINCE</p>
                     </div>
+
+                    <div className="next-watering">
+                        <p>Next watering scheduled for</p>
+                        <button onClick={() => setSchedule(true)}>
+                            CHANGE WATER SCHEDULE
+                        </button>
+                    </div>
                 </div>
+                {uploader && (
+                    <div className="plant-uploader">
+                        <Uploader
+                            url={url}
+                            setUploader={setUploader}
+                            scene={scene}
+                        />
+                    </div>
+                )}
+                {schedule && (
+                    <div className="plant-schedule">
+                        <WaterSchedule id={plantInfo.id} />
+                    </div>
+                )}
             </div>
-            {uploader && (
-                <div className="plant-uploader">
-                    <Uploader
-                        url={url}
-                        setUploader={setUploader}
-                        scene={scene}
-                    />
-                </div>
-            )}
         </div>
     );
 }

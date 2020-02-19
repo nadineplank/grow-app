@@ -9,7 +9,7 @@ import Navbar from "./navbar";
 import Overview from "./overview";
 import AddPlant from "./add-plant";
 import AllPlants from "./allplants";
-import Plant from "./plant";
+
 import Settings from "./settings";
 // import Calendar from "./calendar";
 
@@ -24,7 +24,6 @@ export default function App() {
         <BrowserRouter>
             <Navbar />
             <Route exact path="/" component={Overview} />
-            <Route path="/plant/:id" component={Plant} />
             <Route path="/plants" component={AllPlants} />
             <Route exact path="/addPlant" component={AddPlant} />
             <Route path="/settings" component={Settings} />

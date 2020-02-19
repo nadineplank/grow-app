@@ -63,14 +63,11 @@ export async function getIndividualPlant(id) {
     };
 }
 
-export async function setReminder(id) {
-    const { data } = await axios.post("/setReminder");
+export async function setReminder(id, values) {
+    console.log("values from setReminder: ", values);
+    const { data } = await axios.post(`plant/${id}/setReminder`, values);
     return {
         type: "SET_REMINDER",
         reminder: data
     };
-}
-
-export async function waterSchedule() {
-    const { data } = await axios.get();
 }
