@@ -8,7 +8,7 @@ export default function Navbar() {
                 <i className="fas fa-home"></i>
             </Link>
 
-            <Link to="/plant" className="nav">
+            <Link to="/plants" className="nav">
                 <i className="fas fa-seedling"></i>
             </Link>
 

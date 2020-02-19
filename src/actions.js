@@ -1,7 +1,7 @@
 import axios from "./axios";
 
 export async function getPlants() {
-    const { data } = await axios.get("/plants");
+    const { data } = await axios.get("/plants.json");
 
     return {
         type: "GET_PLANTS",

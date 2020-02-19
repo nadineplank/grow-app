@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlants, deletePlant } from "../actions";
+import { deletePlant } from "../actions";
 import { Link } from "react-router-dom";
 import Holdable from "./holdable";
 
@@ -9,9 +9,7 @@ export default function Overview() {
     const plants = useSelector(state => state.plants);
     const [wobble, setWobble] = useState("false");
 
-    useEffect(() => {
-        dispatch(getPlants());
-    }, [plants]);
+    useEffect(() => {}, [plants]);
 
     function onClick(e) {
         const id = e.currentTarget.id;

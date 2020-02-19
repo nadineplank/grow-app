@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../actions";
+// import { getUser } from "../actions";
 import Uploader from "./uploader";
 
 export default function Settings() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const [uploader, setUploader] = useState(false);
     const user = useSelector(state => state.user);
     const url = "updateProfileImage";
 
-    useEffect(() => {
-        dispatch(getUser());
-    }, []);
+    useEffect(() => {}, [user]);
 
     if (!user) {
         return null;

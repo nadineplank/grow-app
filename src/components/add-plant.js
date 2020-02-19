@@ -16,7 +16,7 @@ export default function addPlants() {
 
     async function add() {
         await dispatch(addPlant(values));
-        await setStep(4);
+        await setStep(5);
     }
 
     return (
@@ -27,7 +27,7 @@ export default function addPlants() {
                         <Link id="add-plant" to="/">
                             <i className="fas fa-chevron-left arrow-left" />
                         </Link>
-                        <p className="stepOf"> 1 OUT OF 4</p>
+                        <p className="stepOf"> 1 OUT OF 5</p>
                     </div>
                     <p className="add-plant-header">
                         What is the name of your plant?
@@ -57,7 +57,7 @@ export default function addPlants() {
                             className="fas fa-chevron-left arrow-left"
                             onClick={() => setStep(1)}
                         />
-                        <p className="stepOf"> 2 OUT OF 4</p>
+                        <p className="stepOf"> 2 OUT OF 5</p>
                     </div>
                     <p className="add-plant-header">
                         What type of plant is it?
@@ -87,7 +87,7 @@ export default function addPlants() {
                             className="fas fa-chevron-left arrow-left"
                             onClick={() => setStep(2)}
                         />
-                        <p className="stepOf"> 3 OUT OF 4</p>
+                        <p className="stepOf"> 3 OUT OF 5</p>
                     </div>
                     <p className="add-plant-header">
                         Where is your plant located?
@@ -99,6 +99,35 @@ export default function addPlants() {
                             placeholder="location"
                             onChange={handleChange}
                         />
+                        <button
+                            className="add-plant-button"
+                            onClick={() => setStep(4)}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+            )}
+            {step === 4 && (
+                <div className="add-plant-container">
+                    <div className="add-plant-nav">
+                        <i
+                            className="fas fa-chevron-left arrow-left"
+                            onClick={() => setStep(3)}
+                        />
+                        <p className="stepOf"> 4 OUT OF 5</p>
+                    </div>
+                    <p className="add-plant-header">
+                        Since when do you have this plant?
+                    </p>
+                    <div className="input-button">
+                        <input
+                            className="add-plant-input"
+                            name="date"
+                            type="date"
+                            placeholder="location"
+                            onChange={handleChange}
+                        />
                         <button className="add-plant-button" onClick={add}>
                             Next
                         </button>
@@ -106,14 +135,14 @@ export default function addPlants() {
                 </div>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
                 <div className="add-plant-container">
                     <div className="add-plant-nav">
                         <i
                             className="fas fa-chevron-left arrow-left"
-                            onClick={() => setStep(2)}
+                            onClick={() => setStep(4)}
                         />
-                        <p className="stepOf"> 4 OUT OF 4</p>
+                        <p className="stepOf"> 5 OUT OF 5</p>
                     </div>
                     <p className="add-plant-header">Add a photo</p>
                     {/* Uploader  */}

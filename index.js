@@ -189,7 +189,7 @@ app.get("/user", async (req, res) => {
 
     try {
         const data = await getUser(id);
-        console.log("data from getUser: ", data);
+
         res.json({
             first: data[0].first,
             last: data[0].last,
@@ -208,10 +208,11 @@ app.post("/plants", async (req, res) => {
     let name = req.body.name,
         type = req.body.type,
         location = req.body.location,
+        date = req.body.date,
         user_id = req.session.userId;
 
     try {
-        const data = await addPlant(name, type, location, user_id);
+        const data = await addPlant(name, type, location, user_id, date);
         req.session.plantId = data.rows[0].id;
         res.json(data);
     } catch (err) {
@@ -219,7 +220,7 @@ app.post("/plants", async (req, res) => {
     }
 });
 
-app.get("/plants", async (req, res) => {
+app.get("/plants.json", async (req, res) => {
     let user_id = req.session.userId;
 
     try {
@@ -233,10 +234,10 @@ app.get("/plants", async (req, res) => {
 
 app.get("/plant/:id.json", async (req, res) => {
     let id = req.params.id;
-    console.log("id from getIndividualPlant: ", id);
+
     try {
         const data = await getIndividualPlant(id);
-        console.log("data from GET getIndividualPlant: ", data);
+
         res.json(data[0]);
     } catch (err) {
         console.log("err in GET getIndividualPlant", err);
@@ -277,23 +278,19 @@ app.post(
     }
 );
 
-/// IMAGE UPLOAD PLANT PROFILE //
+/// IMAGE UPLOAD PROFILE //
 app.post(
     "/upload-profile-image",
     uploader.single("file"),
     s3.upload,
     (req, res) => {
         const file = s3Url + req.file.filename,
-            id = req.session.plantId;
+            id = req.session.userId;
 
         if (req.file) {
             updateProfileImage(file, id)
                 .then(data => {
-                    console.log(data[0]);
-                    res.json({
-                        image: data[0].image,
-                        success: true
-                    });
+                    res.json(data.image);
                 })
                 .catch(err => {
                     console.log("Error in updateImage: ", err);

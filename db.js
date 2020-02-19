@@ -72,12 +72,12 @@ exports.updateProfileImage = function(image, id) {
 
 // PLANTS
 
-exports.addPlant = function(name, type, location, user_id) {
+exports.addPlant = function(name, type, location, user_id, date) {
     return db.query(
-        `INSERT INTO plants (name, type, location, user_id)
-        VALUES ($1, $2, $3, $4)
+        `INSERT INTO plants (name, type, location, user_id, added_at)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING id`,
-        [name, type, location, user_id]
+        [name, type, location, user_id, date]
     );
 };
 

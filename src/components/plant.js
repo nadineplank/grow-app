@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Uploader from "./uploader";
 import axios from "../axios";
 
@@ -14,7 +15,7 @@ export default function Plant(props) {
             let { data } = await axios.get(`/plant/${id}.json`);
             setPlant(data);
         })();
-    }, []);
+    }, [plant]);
 
     if (!plant) {
         return null;
