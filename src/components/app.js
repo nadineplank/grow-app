@@ -8,7 +8,7 @@ import Navbar from "./navbar";
 import Overview from "./overview";
 import AddPlant from "./add-plant";
 import Plant from "./plant";
-// import Settings from "./settings";
+import Settings from "./settings";
 // import Calendar from "./calendar";
 
 export default function App() {
@@ -18,9 +18,9 @@ export default function App() {
             <Route exact path="/" component={Overview} />
             <Route path="/plant/:id" component={Plant} />
             <Route exact path="/addPlant" component={AddPlant} />
+            <Route path="/settings" component={Settings} />
         </BrowserRouter>
     );
 }
 
 // <Route path="/calendar" component={Calendar} />
-// <Route path="/settings" component={Settings} />

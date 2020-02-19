@@ -11,6 +11,8 @@ export default function addPlants() {
     const [values, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
     const [step, setStep] = useState(1);
+    const url = "updatePlantImage";
+    const scene = "add-plant";
 
     async function add() {
         await dispatch(addPlant(values));
@@ -23,25 +25,28 @@ export default function addPlants() {
                 <div className="add-plant-container">
                     <div className="add-plant-nav">
                         <Link id="add-plant" to="/">
-                            <i className="fas fa-chevron-left add-plant-arrow" />
+                            <i className="fas fa-chevron-left arrow-left" />
                         </Link>
                         <p className="stepOf"> 1 OUT OF 4</p>
                     </div>
                     <p className="add-plant-header">
                         What is the name of your plant?
                     </p>
-                    <input
-                        className="plant-input"
-                        name="name"
-                        placeholder="name"
-                        onChange={handleChange}
-                    />
-                    <button
-                        className="add-plant-button"
-                        onClick={() => setStep(2)}
-                    >
-                        Next
-                    </button>
+                    <div className="input-button">
+                        <input
+                            className="add-plant-input"
+                            name="name"
+                            placeholder="name"
+                            required
+                            onChange={handleChange}
+                        />
+                        <button
+                            className="add-plant-button"
+                            onClick={() => setStep(2)}
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -49,7 +54,7 @@ export default function addPlants() {
                 <div className="add-plant-container">
                     <div className="add-plant-nav">
                         <i
-                            className="fas fa-chevron-left add-plant-arrow"
+                            className="fas fa-chevron-left arrow-left"
                             onClick={() => setStep(1)}
                         />
                         <p className="stepOf"> 2 OUT OF 4</p>
@@ -57,18 +62,21 @@ export default function addPlants() {
                     <p className="add-plant-header">
                         What type of plant is it?
                     </p>
-                    <input
-                        className="plant-input"
-                        name="type"
-                        placeholder="type"
-                        onChange={handleChange}
-                    />
-                    <button
-                        className="add-plant-button"
-                        onClick={() => setStep(3)}
-                    >
-                        Next
-                    </button>
+                    <div className="input-button">
+                        <input
+                            className="add-plant-input"
+                            name="type"
+                            placeholder="type"
+                            required
+                            onChange={handleChange}
+                        />
+                        <button
+                            className="add-plant-button"
+                            onClick={() => setStep(3)}
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -76,7 +84,7 @@ export default function addPlants() {
                 <div className="add-plant-container">
                     <div className="add-plant-nav">
                         <i
-                            className="fas fa-chevron-left add-plant-arrow"
+                            className="fas fa-chevron-left arrow-left"
                             onClick={() => setStep(2)}
                         />
                         <p className="stepOf"> 3 OUT OF 4</p>
@@ -84,15 +92,17 @@ export default function addPlants() {
                     <p className="add-plant-header">
                         Where is your plant located?
                     </p>
-                    <input
-                        className="plant-input"
-                        name="location"
-                        placeholder="location"
-                        onChange={handleChange}
-                    />
-                    <button className="add-plant-button" onClick={add}>
-                        Next
-                    </button>
+                    <div className="input-button">
+                        <input
+                            className="add-plant-input"
+                            name="location"
+                            placeholder="location"
+                            onChange={handleChange}
+                        />
+                        <button className="add-plant-button" onClick={add}>
+                            Next
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -100,14 +110,19 @@ export default function addPlants() {
                 <div className="add-plant-container">
                     <div className="add-plant-nav">
                         <i
-                            className="fas fa-chevron-left add-plant-arrow"
+                            className="fas fa-chevron-left arrow-left"
                             onClick={() => setStep(2)}
                         />
                         <p className="stepOf"> 4 OUT OF 4</p>
                     </div>
                     <p className="add-plant-header">Add a photo</p>
                     {/* Uploader  */}
-                    <Uploader />
+                    <Uploader url={url} scene={scene} />
+                    <Link to="/">
+                        <button className="add-plant-button" id="upload">
+                            SKIP
+                        </button>
+                    </Link>
                 </div>
             )}
         </div>

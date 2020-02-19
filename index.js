@@ -11,7 +11,8 @@ const {
     verify,
     updatePassword,
     storeCode,
-    updateImage,
+    updatePlantImage,
+    updateProfileImage,
     addPlant,
     getPlants,
     deletePlant,
@@ -184,14 +185,17 @@ app.post("/verify", requireLoggedOutUser, async (req, res) => {
 });
 
 app.get("/user", async (req, res) => {
-    let email = req.session.email;
+    let id = req.session.userId;
 
     try {
-        const data = await getUser(email);
+        const data = await getUser(id);
+        console.log("data from getUser: ", data);
         res.json({
             first: data[0].first,
             last: data[0].last,
-            id: data[0].id
+            id: data[0].id,
+            image: data[0].image || "/default-profile.png",
+            email: data[0].email
         });
     } catch (err) {
         console.log("error in GET /user: ", err);
@@ -233,7 +237,7 @@ app.get("/plant/:id.json", async (req, res) => {
     try {
         const data = await getIndividualPlant(id);
         console.log("data from GET getIndividualPlant: ", data);
-        res.json(data);
+        res.json(data[0]);
     } catch (err) {
         console.log("err in GET getIndividualPlant", err);
     }
@@ -252,21 +256,51 @@ app.post("/delete-plant", async (req, res) => {
     }
 });
 
-/// IMAGE UPLOAD //
-app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    const file = s3Url + req.file.filename,
-        id = req.session.plantId;
+/// IMAGE UPLOAD PLANT //
+app.post(
+    "/upload-plant-image",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        const file = s3Url + req.file.filename,
+            id = req.session.plantId;
 
-    if (req.file) {
-        updateImage(file, id)
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log("Error in updateImage: ", err);
-            });
+        if (req.file) {
+            updatePlantImage(file, id)
+                .then(data => {
+                    res.json(data.image);
+                })
+                .catch(err => {
+                    console.log("Error in updateImage: ", err);
+                });
+        }
     }
-});
+);
+
+/// IMAGE UPLOAD PLANT PROFILE //
+app.post(
+    "/upload-profile-image",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        const file = s3Url + req.file.filename,
+            id = req.session.plantId;
+
+        if (req.file) {
+            updateProfileImage(file, id)
+                .then(data => {
+                    console.log(data[0]);
+                    res.json({
+                        image: data[0].image,
+                        success: true
+                    });
+                })
+                .catch(err => {
+                    console.log("Error in updateImage: ", err);
+                });
+        }
+    }
+);
 
 ////////// LOGOUT /////////
 

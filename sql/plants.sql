@@ -6,6 +6,7 @@ CREATE TABLE plants(
     location VARCHAR NOT NULL,
     type VARCHAR NOT NULL,
     user_id INT REFERENCES users(id) NOT NULL,
-    image VARCHAR
-
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    image VARCHAR,
+    description VARCHAR
 );

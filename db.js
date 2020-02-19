@@ -14,13 +14,13 @@ exports.addUser = function(first, last, email, password) {
     );
 };
 
-exports.getUser = function(email) {
+exports.getUser = function(id) {
     return db
         .query(
             `SELECT *
             FROM users
-            WHERE email = $1`,
-            [email]
+            WHERE id = $1`,
+            [id]
         )
         .then(({ rows }) => rows);
 };
@@ -58,6 +58,18 @@ exports.updatePassword = function(password, email) {
     );
 };
 
+exports.updateProfileImage = function(image, id) {
+    return db
+        .query(
+            `UPDATE users
+        SET image = $1
+        WHERE id = $2
+        RETURNING image`,
+            [image, id]
+        )
+        .then(({ rows }) => rows);
+};
+
 // PLANTS
 
 exports.addPlant = function(name, type, location, user_id) {
@@ -80,14 +92,16 @@ exports.getPlants = function(user_id) {
         .then(({ rows }) => rows);
 };
 
-exports.updateImage = function(image, id) {
-    return db.query(
-        `UPDATE plants
+exports.updatePlantImage = function(image, id) {
+    return db
+        .query(
+            `UPDATE plants
         SET image = $1
         WHERE id = $2
         RETURNING image`,
-        [image, id]
-    );
+            [image, id]
+        )
+        .then(({ rows }) => rows);
 };
 
 exports.deletePlant = function(id) {

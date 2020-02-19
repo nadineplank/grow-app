@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateImage } from "../actions";
-import { Link } from "react-router-dom";
+import { updatePlantImage, updateProfileImage } from "../actions";
 
-export default function Uploader() {
-    const [files, setFiles] = useState({});
-    const [error, setError] = useState(false);
+export default function Uploader({ url, setUploader, scene }) {
     const dispatch = useDispatch();
+    const [files, setFiles] = useState({});
+
+    // const dispatch = useDispatch();
 
     async function handleChange(e) {
         setFiles(e.target.files[0]);
@@ -16,17 +16,21 @@ export default function Uploader() {
         e.preventDefault();
         var formData = new FormData();
         formData.append("file", files);
-        const data = await dispatch(updateImage(formData));
-        if (!data) {
-            setError(true);
+        if (url === "updatePlantImage") {
+            dispatch(updatePlantImage(formData));
+            if (scene === "add-plant") {
+                location.assign("/");
+            } else if (scene === "plant") {
+                setUploader(false);
+            }
         } else {
-            location.replace("/");
+            dispatch(updateProfileImage(formData));
+            setUploader(false);
         }
     }
 
     return (
         <div className="upload-container">
-            {error && <p className="error">Ooops, something went wrong!</p>}
             <div className="upload">
                 <input
                     name="file"
@@ -42,12 +46,6 @@ export default function Uploader() {
             >
                 UPLOAD
             </button>
-
-            <Link to="/">
-                <button className="add-plant-button" id="upload">
-                    SKIP
-                </button>
-            </Link>
         </div>
     );
 }

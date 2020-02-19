@@ -28,7 +28,7 @@ export async function deletePlant(id) {
 }
 
 export async function getUser() {
-    const { data } = await axios.get("/getUser");
+    const { data } = await axios.get("/user");
 
     return {
         type: "GET_USER",
@@ -36,18 +36,28 @@ export async function getUser() {
     };
 }
 
-export async function updateImage(formData) {
-    const { data } = await axios.post("/upload", formData);
+export async function updatePlantImage(formData) {
+    const { data } = await axios.post("/upload-plant-image", formData);
 
     return {
-        type: "UPDATE_IMAGE",
+        type: "UPDATE_PLANT_IMAGE",
         image: data
+    };
+}
+
+export async function updateProfileImage(formData) {
+    const { data } = await axios.post("/upload-profile-image", formData);
+
+    return {
+        type: "UPDATE_PROFILE_IMAGE",
+        image: data.image,
+        success: true
     };
 }
 
 export async function getIndividualPlant(id) {
     const { data } = await axios.get(`/plant/${id}.json`);
-
+    console.log("plant data: ", data);
     return {
         type: "GET_INDIVIDUAL_PLANT",
         plant: data
