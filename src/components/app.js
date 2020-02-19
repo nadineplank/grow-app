@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getPlants, getUser } from "../actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, BrowserRouter } from "react-router-dom";
 
 // COMPONENTS
@@ -15,13 +15,11 @@ import Settings from "./settings";
 
 export default function App() {
     const dispatch = useDispatch();
-    const plants = useSelector(state => state.plants);
-    const user = useSelector(state => state.user);
 
     useEffect(() => {
         dispatch(getPlants());
         dispatch(getUser());
-    }, [plants, user]);
+    }, []);
     return (
         <BrowserRouter>
             <Navbar />

@@ -269,7 +269,7 @@ app.post(
         if (req.file) {
             updatePlantImage(file, id)
                 .then(data => {
-                    res.json(data.image);
+                    res.json(data);
                 })
                 .catch(err => {
                     console.log("Error in updateImage: ", err);
@@ -290,7 +290,7 @@ app.post(
         if (req.file) {
             updateProfileImage(file, id)
                 .then(data => {
-                    res.json(data.image);
+                    res.json(data);
                 })
                 .catch(err => {
                     console.log("Error in updateImage: ", err);

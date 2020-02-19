@@ -38,7 +38,7 @@ export async function getUser() {
 
 export async function updatePlantImage(formData) {
     const { data } = await axios.post("/upload-plant-image", formData);
-
+    console.log(data);
     return {
         type: "UPDATE_PLANT_IMAGE",
         image: data
@@ -50,8 +50,7 @@ export async function updateProfileImage(formData) {
 
     return {
         type: "UPDATE_PROFILE_IMAGE",
-        image: data.image,
-        success: true
+        image: data
     };
 }
 

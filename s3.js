@@ -15,7 +15,6 @@ const s3 = new aws.S3({
 
 exports.upload = (req, res, next) => {
     if (!req.file) {
-        console.log("req.file is not there");
         return res.sendStatus(500);
     }
     const { filename, mimetype, size, path } = req.file;
@@ -29,7 +28,6 @@ exports.upload = (req, res, next) => {
     })
         .promise()
         .then(() => {
-            console.log("it worked");
             next();
             fs.unlink(path, () => {});
         })
