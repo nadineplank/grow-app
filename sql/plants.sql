@@ -8,5 +8,6 @@ CREATE TABLE plants(
     user_id INT REFERENCES users(id) NOT NULL,
     added_at VARCHAR NOT NULL,
     image VARCHAR,
-    description VARCHAR
+    last_watered VARCHAR,
+    reminder INT
 );

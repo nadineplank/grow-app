@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const compression = require("compression");
 const { hash, compare } = require("./bcrypt");
+const moment = require("moment");
 
 const {
     addUser,
@@ -16,7 +17,8 @@ const {
     addPlant,
     getPlants,
     deletePlant,
-    getIndividualPlant
+    getIndividualPlant,
+    setReminder
 } = require("./db");
 
 const { requireLoggedOutUser } = require("./middleware");
@@ -298,6 +300,20 @@ app.post(
         }
     }
 );
+
+///// REMINDER /////
+app.post("plant/:id/set-reminder", async (req, res) => {
+    const id = req.params.id,
+        reminder = req.body.reminder,
+        last_watered = new Date();
+
+    try {
+        const { data } = await setReminder(id, reminder, last_watered);
+        res.json(data);
+    } catch (err) {
+        console.log("error in /POST setReminder: ", err);
+    }
+});
 
 ////////// LOGOUT /////////
 

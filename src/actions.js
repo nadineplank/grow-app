@@ -56,17 +56,17 @@ export async function updateProfileImage(formData) {
 
 export async function getIndividualPlant(id) {
     const { data } = await axios.get(`/plant/${id}.json`);
-    console.log("plant data: ", data);
+
     return {
         type: "GET_INDIVIDUAL_PLANT",
         plant: data
     };
 }
 
-// export async function acceptFriendRequest(id) {
-//     await axios.post("/accept-friend-request/" + id);
-//     return {
-//         type: "ACCEPT_FRIEND_REQ",
-//         id
-//     };
-// }
+export async function setReminder(id) {
+    const { data } = await axios.post("/setReminder");
+    return {
+        type: "SET_REMINDER",
+        reminder: data
+    };
+}

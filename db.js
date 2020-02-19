@@ -122,3 +122,12 @@ exports.getIndividualPlant = function(id) {
         )
         .then(({ rows }) => rows);
 };
+
+exports.setReminder = function(id, reminder, last_watered) {
+    return db.query(
+        `UPDATE plants
+        SET reminder = $2, last_watered = $3
+        WHERE id = $1`,
+        [id, reminder, last_watered]
+    );
+};

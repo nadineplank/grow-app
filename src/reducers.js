@@ -43,6 +43,12 @@ export default function reducer(state = {}, action) {
             }
         };
     }
+    if (action.type == "SET_REMINDER") {
+        state = {
+            ...state,
+            reminder: action.reminder
+        };
+    }
 
     return state;
 }
