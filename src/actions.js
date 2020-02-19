@@ -1,11 +1,11 @@
 import axios from "./axios";
 
-export async function getPlants() {
-    const { data } = await axios.get("/plants.json");
-
+export async function getPlants(plantData) {
+    // const { data } = await axios.get("/plants.json");
+    console.log("plantData from socket: ", plantData);
     return {
         type: "GET_PLANTS",
-        plants: data
+        plants: plantData
     };
 }
 
@@ -69,4 +69,8 @@ export async function setReminder(id) {
         type: "SET_REMINDER",
         reminder: data
     };
+}
+
+export async function waterSchedule() {
+    const { data } = await axios.get();
 }

@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
 const cookieSession = require("cookie-session");
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+
 const csurf = require("csurf");
 const compression = require("compression");
 const { hash, compare } = require("./bcrypt");
@@ -27,8 +30,6 @@ const { sendEmail } = require("./ses");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
 
-app.use(express.static("./public"));
-
 app.use(compression());
 
 let secrets;
@@ -48,26 +49,24 @@ if (process.env.NODE_ENV != "production") {
 app.use(express.json());
 
 // cookies
-app.use(
-    cookieSession({
-        secret: "I'm a secret",
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets.SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
+/// csurf
+app.use(csurf());
 
 app.use(
     express.urlencoded({
         extended: false
     })
 );
-
-/// csurf
-app.use(csurf());
-
-app.use(function(req, res, next) {
-    res.cookie("mytoken", req.csrfToken());
-    next();
-});
 
 /////// DO NOT TOUCH -  multer file upload ////////
 const multer = require("multer");
@@ -93,6 +92,13 @@ const uploader = multer({
 });
 
 /////// DO NOT TOUCH
+
+app.use(express.static("./public"));
+
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 ///////////   AUTH    ////////
 
@@ -222,18 +228,6 @@ app.post("/plants", async (req, res) => {
     }
 });
 
-app.get("/plants.json", async (req, res) => {
-    let user_id = req.session.userId;
-
-    try {
-        const data = await getPlants(user_id);
-
-        res.json(data);
-    } catch (err) {
-        console.log("error in getPlants: ", err);
-    }
-});
-
 app.get("/plant/:id.json", async (req, res) => {
     let id = req.params.id;
 
@@ -332,6 +326,21 @@ app.get("*", function(req, res) {
 
 //////////////////////////////////////
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
+});
+
+// SERVER SIDE SOCKET CODE //
+
+io.on("connection", async function(socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    console.log("socket id: ", socket.id);
+    const userId = socket.request.session.userId,
+        userSocket = socket.id;
+
+    let plantData = await getPlants(userId);
+
+    io.to(userSocket).emit("plant data", plantData);
 });
