@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
+    // function home() {
+    //     location.assign("/");
+    // }
     return (
         <div className="nav-bar">
             <Link to="/" className="nav">
@@ -12,7 +15,7 @@ export default function Navbar() {
                 <i className="fas fa-seedling"></i>
             </Link>
 
-            <Link to="/calendar" className="nav">
+            <Link to="/watering" className="nav">
                 <i className="far fa-calendar-alt"></i>
             </Link>
 

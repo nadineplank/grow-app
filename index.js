@@ -21,7 +21,10 @@ const {
     getPlants,
     updatePlant,
     deletePlant,
-    setReminder
+    setReminder,
+    setTimeDiff,
+    setWaterNeed,
+    setAsWatered
 } = require("./db");
 
 const { requireLoggedOutUser } = require("./middleware");
@@ -238,10 +241,18 @@ app.post("/add-plant", async (req, res) => {
         type = req.body.type,
         location = req.body.location,
         date = req.body.date,
-        user_id = req.session.userId;
+        user_id = req.session.userId,
+        last_watered = new Date();
     console.log("req.body from POST add-plant", req.body);
     try {
-        const data = await addPlant(name, type, location, user_id, date);
+        const data = await addPlant(
+            name,
+            type,
+            location,
+            user_id,
+            date,
+            last_watered
+        );
         console.log(data.rows[0].id);
         req.session.plantId = data.rows[0].id;
         res.json(data);
@@ -322,16 +333,33 @@ app.post(
 );
 
 ///// REMINDER /////
-app.post("plant/:id/set-reminder", async (req, res) => {
+app.post("/set-reminder/:id", async (req, res) => {
     const id = req.params.id,
-        reminder = req.body.reminder,
-        last_watered = new Date();
+        reminder = req.body.reminder;
+    // last_watered = new Date();
 
     try {
-        const { data } = await setReminder(id, reminder, last_watered);
+        const { data } = await setReminder(id, reminder);
         res.json(data);
     } catch (err) {
-        console.log("error in /POST setReminder: ", err);
+        console.log("error in /POST set-reminder: ", err);
+    }
+});
+
+////// MARK AS WATERED ///////
+
+app.post("/mark-as-watered", async (req, res) => {
+    console.log("radio button reached server");
+    const id = req.body.id,
+        last_watered = new Date();
+
+    console.log("req.body from /POST mark-as-watered: ", req.body);
+
+    try {
+        const { data } = await setAsWatered(id, last_watered);
+        res.json(data);
+    } catch (err) {
+        console.log("error in /POST mark-as-watered: ", err);
     }
 });
 
@@ -367,6 +395,22 @@ io.on("connection", async function(socket) {
         userSocket = socket.id;
 
     let plantData = await getPlants(userId);
+
+    console.log("plantData from socket: ", plantData);
+    let date = new Date();
+    for (let x of plantData) {
+        console.log("x: ", x);
+        let timeDiff = moment(x.last_watered).diff(date, "days");
+
+        timeDiff = Math.abs(timeDiff);
+        console.log("timeDiff: ", timeDiff);
+        if (timeDiff > 1) {
+            setTimeDiff(x.id, timeDiff);
+            if (x.time_diff >= x.reminder) {
+                setWaterNeed(x.id, true);
+            }
+        }
+    }
 
     io.to(userSocket).emit("plant data", plantData);
 });

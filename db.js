@@ -72,12 +72,12 @@ exports.updateProfileImage = function(image, id) {
 
 // PLANTS
 
-exports.addPlant = function(name, type, location, user_id, date) {
+exports.addPlant = function(name, type, location, user_id, date, last_watered) {
     return db.query(
-        `INSERT INTO plants (name, type, location, user_id, added_at)
-        VALUES ($1, $2, $3, $4, $5)
+        `INSERT INTO plants (name, type, location, user_id, added_at, last_watered)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING id`,
-        [name, type, location, user_id, date]
+        [name, type, location, user_id, date, last_watered]
     );
 };
 
@@ -125,11 +125,43 @@ exports.deletePlant = function(id) {
     );
 };
 
-exports.setReminder = function(id, reminder, last_watered) {
+/////// WaterSchedule //////
+
+exports.setReminder = function(id, reminder) {
     return db.query(
         `UPDATE plants
-        SET reminder = $2, last_watered = $3
+        SET reminder = $2
+        WHERE id = $1
+        RETURNING *
+        `,
+        [id, reminder]
+    );
+};
+
+exports.setTimeDiff = (id, timeDiff) => {
+    return db.query(
+        `UPDATE plants
+        SET time_diff = $2
         WHERE id = $1`,
-        [id, reminder, last_watered]
+        [id, timeDiff]
+    );
+};
+
+exports.setAsWatered = (id, last_watered) => {
+    return db.query(
+        `UPDATE plants
+        SET last_watered = $2, needs_water = false
+        WHERE id = $1
+        RETURNING *`,
+        [id, last_watered]
+    );
+};
+
+exports.setWaterNeed = (id, needs_water) => {
+    return db.query(
+        `UPDATE plants
+        SET needs_water = $2
+        WHERE id = $1`,
+        [id, needs_water]
     );
 };

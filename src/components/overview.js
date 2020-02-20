@@ -4,7 +4,7 @@ import { deletePlant } from "../actions";
 import { Link } from "react-router-dom";
 import Holdable from "./holdable";
 import Plant from "./plant";
-// import AddPlant from "./add-plant";
+import WateringPlan from "./watering-plan";
 
 export default function Overview() {
     const dispatch = useDispatch();
@@ -12,7 +12,14 @@ export default function Overview() {
     const [wobble, setWobble] = useState(false);
     const [plantPage, setPlantPage] = useState(false);
 
+    const waterToday = useSelector(
+        state =>
+            state.plants &&
+            state.plants.filter(waterToday => waterToday.needs_water === true)
+    );
+
     useEffect(() => {
+        console.log(waterToday);
         if (plantPage) {
             const p = plants.find(plant => plant.id == plantPage.id);
             setPlantPage(p);
@@ -31,7 +38,7 @@ export default function Overview() {
         dispatch(deletePlant(e));
     }
 
-    if (!plants) {
+    if (!plants || !waterToday) {
         return null;
     }
 
@@ -70,21 +77,43 @@ export default function Overview() {
         </div>
     );
 
+    const reminder = (
+        <div className="reminder-container">
+            <p>Some of your plants need to be watered</p>
+            {waterToday.map(waterMe => (
+                <div className="water-me-box" key={waterMe.id}>
+                    <div className="water-me-wrapper">
+                        <img className="water-me-pic" src={waterMe.image} />
+
+                        <p className="water-me-name">{waterMe.name}</p>
+                    </div>
+                    <i className="fas fa-chevron-right all-plants-arrow-right" />
+                </div>
+            ))}
+        </div>
+    );
+
     return (
         <div>
             <h1 className="header">Welcome, Plant Lover</h1>
-            <div className="container">
-                <div>
-                    <div className="box">
-                        <Link id="add-box" to="/addPlant">
-                            <p id="add">
-                                + <br />
-                                ADD <br />
-                            </p>
-                        </Link>
-                    </div>
-                    {!!plants.length && plant}
+
+            {!!waterToday.length && reminder}
+            {!waterToday.length && (
+                <div className="allGood">
+                    <p>All caught up! You are an amazing plant parent!</p>
                 </div>
+            )}
+
+            <div className="container">
+                <div className="box">
+                    <Link id="add-box" to="/addPlant">
+                        <p id="add">
+                            + <br />
+                            ADD <br />
+                        </p>
+                    </Link>
+                </div>
+                {!!plants.length && plant}
             </div>
             {plantPage && (
                 <Plant

@@ -38,5 +38,15 @@ body {
     background: whitesmoke;
     top: 0px;
     left: 0px;
+    bottom: 0;
+    width: 100vw;
+}
+
+.water-schedule {
+    position: absolute;
+    background: whitesmoke;
+    top: 0px;
+    left: 0px;
+    bottom: 0;
     width: 100vw;
 }

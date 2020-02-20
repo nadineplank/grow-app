@@ -4,10 +4,13 @@
 }
 
 .container {
+    display: flex;
+    overflow-x: scroll;
+    width: 100vw;
+    margin: 15px;
 }
 
 .plants-container {
-    overflow-x: scroll;
     display: flex;
     justify-content: flex-start;
 }
@@ -32,6 +35,33 @@
     -moz-animation-iteration-count: infinite;
     -webkit-transform: rotate(-1deg);
     -moz-transform: rotate(-1deg);
+}
+
+.reminder-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+}
+
+.water-me-box {
+    display: flex;
+    width: 85vw;
+    background: white;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.5);
+    height: 10vh;
+    margin-top: 2vh;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.water-me-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.water-me-pic {
+    height: 8vh;
 }
 
 .box {

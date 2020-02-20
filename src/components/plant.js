@@ -6,7 +6,7 @@ import Editor from "./editor";
 // import axios from "../axios";
 
 export default function Plant({ plantInfo, showInfo }) {
-    const [schedule, setSchedule] = useState(false);
+    const [schedule, showSchedule] = useState(false);
     const [uploader, setUploader] = useState(false);
     const [editor, setEditor] = useState(false);
     // const id = props.match.params.id;
@@ -52,7 +52,7 @@ export default function Plant({ plantInfo, showInfo }) {
 
                     <div className="next-watering">
                         <p>Next watering scheduled for</p>
-                        <button onClick={() => setSchedule(true)}>
+                        <button onClick={() => showSchedule(true)}>
                             CHANGE WATER SCHEDULE
                         </button>
                     </div>
@@ -75,7 +75,10 @@ export default function Plant({ plantInfo, showInfo }) {
                 )}
                 {schedule && (
                     <div className="plant-schedule">
-                        <WaterSchedule id={plantInfo.id} />
+                        <WaterSchedule
+                            id={plantInfo.id}
+                            showSchedule={showSchedule}
+                        />
                     </div>
                 )}
             </div>

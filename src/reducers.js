@@ -54,19 +54,6 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    // if (action.type == "UPLOAD_PLANT_IMAGE") {
-    //     state = {
-    //         ...state,
-    //         plants: state.plants.map(plant => {
-    //             if (plant.id != action.image.id) {
-    //                 return plant;
-    //             } else {
-    //                 return action.image;
-    //             }
-    //         })
-    //     };
-    // }
-
     if (action.type == "UPDATE_PROFILE_IMAGE") {
         state = {
             ...state,
@@ -80,6 +67,19 @@ export default function reducer(state = {}, action) {
         state = {
             ...state,
             reminder: action.reminder
+        };
+    }
+
+    if (action.type == "MARK_AS_WATERED") {
+        state = {
+            ...state,
+            plants: state.plants.map(plant => {
+                if (plant.id != action.watered.id) {
+                    return plant;
+                } else {
+                    return action.image;
+                }
+            })
         };
     }
 

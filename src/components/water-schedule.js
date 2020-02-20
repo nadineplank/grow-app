@@ -3,18 +3,22 @@ import { useDispatch } from "react-redux";
 import { setReminder } from "../actions";
 import useStatefulFields from "../hooks/useStatefulFields";
 
-export default function WaterSchedule({ id }) {
+export default function WaterSchedule({ id, showSchedule }) {
     const [values, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
-    const [schedule, showSchedule] = useState(false);
 
     async function setSchedule() {
         await dispatch(setReminder(id, values));
+        showSchedule(false);
     }
 
     return (
         <div>
             <div className="water-schedule">
+                <i
+                    className="fas fa-chevron-left arrow-left"
+                    onClick={() => showSchedule(false)}
+                />
                 <h1 className="water-header">Watering Schedule</h1>
 
                 <p>Remind me every:</p>

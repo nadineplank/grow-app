@@ -71,20 +71,20 @@ export async function updateProfileImage(formData) {
     };
 }
 
-// export async function getIndividualPlant(id) {
-//     const { data } = await axios.get(`/plant/${id}.json`);
-//
-//     return {
-//         type: "GET_INDIVIDUAL_PLANT",
-//         plant: data
-//     };
-// }
-
 export async function setReminder(id, values) {
-    console.log("values from setReminder: ", values);
-    const { data } = await axios.post(`plant/${id}/setReminder`, values);
+    const { data } = await axios.post(`/set-reminder/${id}`, values);
+
     return {
         type: "SET_REMINDER",
         reminder: data
+    };
+}
+
+export async function setAsWatered(id) {
+    const { data } = await axios.post(`/mark-as-watered`, id);
+
+    return {
+        type: "MARK_AS_WATERED",
+        watered: data
     };
 }

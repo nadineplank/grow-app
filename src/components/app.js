@@ -8,10 +8,9 @@ import { Route, BrowserRouter } from "react-router-dom";
 import Navbar from "./navbar";
 import Overview from "./overview";
 import AddPlant from "./add-plant";
-import AllPlants from "./allplants";
-
+import Plants from "./allplants";
+import WateringPlan from "./watering-plan";
 import Settings from "./settings";
-// import Calendar from "./calendar";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -25,11 +24,10 @@ export default function App() {
         <BrowserRouter>
             <Navbar />
             <Route exact path="/" component={Overview} />
-            <Route path="/plants" component={AllPlants} />
+            <Route path="/plants" component={Plants} />
             <Route exact path="/addPlant" component={AddPlant} />
             <Route path="/settings" component={Settings} />
+            <Route path="/watering" component={WateringPlan} />
         </BrowserRouter>
     );
 }
-
-// <Route path="/calendar" component={Calendar} />

@@ -9,5 +9,7 @@ CREATE TABLE plants(
     added_at VARCHAR NOT NULL,
     image VARCHAR,
     last_watered VARCHAR,
-    reminder INT
+    reminder INT,
+    time_diff VARCHAR,
+    needs_water BOOLEAN
 );
