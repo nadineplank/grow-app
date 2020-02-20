@@ -19,8 +19,8 @@ const {
     updateProfileImage,
     addPlant,
     getPlants,
+    updatePlant,
     deletePlant,
-    getIndividualPlant,
     setReminder
 } = require("./db");
 
@@ -210,6 +210,27 @@ app.get("/user", async (req, res) => {
     }
 });
 
+/// IMAGE UPLOAD PROFILE //
+app.post(
+    "/upload-profile-image",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        const file = s3Url + req.file.filename,
+            id = req.session.userId;
+
+        if (req.file) {
+            updateProfileImage(file, id)
+                .then(data => {
+                    res.json(data[0].image);
+                })
+                .catch(err => {
+                    console.log("Error in updateImage: ", err);
+                });
+        }
+    }
+);
+
 // PLANTS
 
 app.post("/plants", async (req, res) => {
@@ -228,15 +249,21 @@ app.post("/plants", async (req, res) => {
     }
 });
 
-app.get("/plant/:id.json", async (req, res) => {
-    let id = req.params.id;
+app.post("/edit-plant/:id", async (req, res) => {
+    const id = req.params.id,
+        name = req.body.name,
+        type = req.body.type,
+        location = req.body.location,
+        date = req.body.date;
+
+    console.log(req.body);
 
     try {
-        const data = await getIndividualPlant(id);
-
+        const data = await updatePlant(name, type, location, date, id);
+        console.log(data.rows);
         res.json(data[0]);
     } catch (err) {
-        console.log("err in GET getIndividualPlant", err);
+        console.log("error in /POST edit-plant", err);
     }
 });
 
@@ -264,27 +291,6 @@ app.post(
 
         if (req.file) {
             updatePlantImage(file, id)
-                .then(data => {
-                    res.json(data[0].image);
-                })
-                .catch(err => {
-                    console.log("Error in updateImage: ", err);
-                });
-        }
-    }
-);
-
-/// IMAGE UPLOAD PROFILE //
-app.post(
-    "/upload-profile-image",
-    uploader.single("file"),
-    s3.upload,
-    (req, res) => {
-        const file = s3Url + req.file.filename,
-            id = req.session.userId;
-
-        if (req.file) {
-            updateProfileImage(file, id)
                 .then(data => {
                     res.json(data[0].image);
                 })

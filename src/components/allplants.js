@@ -1,25 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePlant } from "../actions";
+import Plant from "./plant";
 
 export default function AllPlants() {
+    const dispatch = useDispatch();
     const plants = useSelector(state => state.plants);
+    const [plantPage, setPlantPage] = useState(false);
+
+    useEffect(() => {}, [plants]);
+
+    function showInfo(e) {
+        console.log("clicked: ", e);
+        setPlantPage(e);
+    }
+
+    function remove(e) {
+        dispatch(deletePlant(e));
+    }
+
+    if (!plants) {
+        return null;
+    }
     return (
-        <div>
+        <div className="all-plants-container">
             <p className="all-plants-header">All plants </p>
             {plants.map(plant => (
-                <div key={plant.id}>
+                <div
+                    key={plant.id}
+                    className="info-wrapper"
+                    onClick={() => showInfo(plant)}
+                >
                     <img
-                        className="plant-pic"
+                        className="all-plants-pic"
                         src={plant.image}
                         key={plant.id}
                     />
+                    <p className="overview-name">{plant.name}</p>
 
-                    <p className="overview-name">
-                        {plant.name} key={plant.id}
-                    </p>
+                    <i className="fas fa-chevron-right all-plants-arrow-right"></i>
                 </div>
             ))}
-            Hello
+            {plantPage && (
+                <Plant
+                    plantInfo={plantPage}
+                    showInfo={showInfo}
+                    remove={remove}
+                />
+            )}
         </div>
     );
 }

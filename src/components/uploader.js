@@ -17,14 +17,14 @@ export default function Uploader({ url, setUploader, scene }) {
         var formData = new FormData();
         formData.append("file", files);
         if (url === "updatePlantImage") {
-            dispatch(updatePlantImage(formData));
+            await dispatch(updatePlantImage(formData));
             if (scene === "add-plant") {
                 location.assign("/");
             } else if (scene === "plant") {
                 setUploader(false);
             }
         } else {
-            dispatch(updateProfileImage(formData));
+            await dispatch(updateProfileImage(formData));
             setUploader(false);
         }
     }

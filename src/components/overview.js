@@ -12,10 +12,14 @@ export default function Overview() {
     const [wobble, setWobble] = useState(false);
     const [plantPage, setPlantPage] = useState(false);
 
-    useEffect(() => {}, [plants]);
+    useEffect(() => {
+        if (plantPage) {
+            const p = plants.find(plant => plant.id == plantPage.id);
+            setPlantPage(p);
+        }
+    }, [plants]);
 
-    function onClick(e) {
-        console.log("clicked: ", e);
+    function showInfo(e) {
         setPlantPage(e);
     }
 
@@ -38,7 +42,7 @@ export default function Overview() {
                     onClick={
                         wobble === true
                             ? () => remove(plant.id)
-                            : () => onClick(plant)
+                            : () => showInfo(plant)
                     }
                     onHold={onHold}
                     id={plant.id}
@@ -82,7 +86,13 @@ export default function Overview() {
                     {!!plants.length && plant}
                 </div>
             </div>
-            {plantPage && <Plant plantInfo={plantPage} />}
+            {plantPage && (
+                <Plant
+                    plantInfo={plantPage}
+                    showInfo={showInfo}
+                    remove={remove}
+                />
+            )}
         </div>
     );
 }

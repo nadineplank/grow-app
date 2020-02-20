@@ -18,6 +18,19 @@ export default function reducer(state = {}, action) {
             plant: action.plant
         };
     }
+    if (action.type === "EDIT_PLANT") {
+        state = {
+            ...state,
+            plants: state.plants.map(plant => {
+                if (plant.id != action.plantInfo.id) {
+                    return plant;
+                } else {
+                    return action.plantInfo;
+                }
+            })
+        };
+    }
+
     if (action.type === "DELETE_PLANT") {
         state = {
             ...state,

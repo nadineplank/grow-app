@@ -92,13 +92,25 @@ exports.getPlants = function(user_id) {
         .then(({ rows }) => rows);
 };
 
+exports.updatePlant = function(name, type, location, date, id) {
+    return db
+        .query(
+            `UPDATE plants
+        SET name = $1, type = $2, location = $3, added_at = $4
+        WHERE id = $5
+        RETURNING *`,
+            [name, type, location, date, id]
+        )
+        .then(({ rows }) => rows);
+};
+
 exports.updatePlantImage = function(image, id) {
     return db
         .query(
             `UPDATE plants
         SET image = $1
         WHERE id = $2
-        RETURNING image`,
+        RETURNING image, id`,
             [image, id]
         )
         .then(({ rows }) => rows);
@@ -111,16 +123,6 @@ exports.deletePlant = function(id) {
          `,
         [id]
     );
-};
-
-exports.getIndividualPlant = function(id) {
-    return db
-        .query(
-            `SELECT * FROM plants
-        WHERE id = $1`,
-            [id]
-        )
-        .then(({ rows }) => rows);
 };
 
 exports.setReminder = function(id, reminder, last_watered) {

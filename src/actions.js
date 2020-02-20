@@ -9,12 +9,22 @@ export async function getPlants(plantData) {
     };
 }
 
-export async function addPlant(values) {
+export async function addPlant(id, values) {
     const { data } = await axios.post("/plants", values);
 
     return {
         type: "ADD_PLANTS",
         plants: data
+    };
+}
+
+export async function editPlant(values, id) {
+    console.log("values: ", values);
+    const { data } = await axios.post(`/edit-plant/${id}`, values);
+    console.log("data from editPlant", data);
+    return {
+        type: "EDIT_PLANT",
+        plantInfo: data
     };
 }
 
@@ -54,14 +64,14 @@ export async function updateProfileImage(formData) {
     };
 }
 
-export async function getIndividualPlant(id) {
-    const { data } = await axios.get(`/plant/${id}.json`);
-
-    return {
-        type: "GET_INDIVIDUAL_PLANT",
-        plant: data
-    };
-}
+// export async function getIndividualPlant(id) {
+//     const { data } = await axios.get(`/plant/${id}.json`);
+//
+//     return {
+//         type: "GET_INDIVIDUAL_PLANT",
+//         plant: data
+//     };
+// }
 
 export async function setReminder(id, values) {
     console.log("values from setReminder: ", values);

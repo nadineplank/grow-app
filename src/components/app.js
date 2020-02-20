@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getPlants, getUser } from "../actions";
 import { useDispatch } from "react-redux";
 import { Route, BrowserRouter } from "react-router-dom";
@@ -20,6 +20,7 @@ export default function App() {
         dispatch(getPlants());
         dispatch(getUser());
     }, []);
+
     return (
         <BrowserRouter>
             <Navbar />
