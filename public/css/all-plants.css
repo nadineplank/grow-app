@@ -1,0 +1,35 @@
+.all-plants-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+}
+
+.all-plants-header {
+    font-size: 8vw;
+    margin-top: 5vw;
+    align-self: flex-start;
+    width: 85vw;
+    margin-left: 8vw;
+}
+
+.info-wrapper {
+    display: flex;
+    width: 85vw;
+    background: white;
+    height: 20vw;
+    margin-top: 7vw;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.all-plants-pic {
+    height: 20vw;
+    object-fit: contain;
+}
+
+.all-plants-arrow-right {
+    color: goldenrod;
+    font-size: 20px;
+    padding: 3vw;
+}
