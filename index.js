@@ -233,15 +233,16 @@ app.post(
 
 // PLANTS
 
-app.post("/plants", async (req, res) => {
+app.post("/add-plant", async (req, res) => {
     let name = req.body.name,
         type = req.body.type,
         location = req.body.location,
         date = req.body.date,
         user_id = req.session.userId;
-
+    console.log("req.body from POST add-plant", req.body);
     try {
         const data = await addPlant(name, type, location, user_id, date);
+        console.log(data.rows[0].id);
         req.session.plantId = data.rows[0].id;
         res.json(data);
     } catch (err) {
@@ -256,11 +257,9 @@ app.post("/edit-plant/:id", async (req, res) => {
         location = req.body.location,
         date = req.body.date;
 
-    console.log(req.body);
-
     try {
         const data = await updatePlant(name, type, location, date, id);
-        console.log(data.rows);
+
         res.json(data[0]);
     } catch (err) {
         console.log("error in /POST edit-plant", err);
@@ -269,7 +268,6 @@ app.post("/edit-plant/:id", async (req, res) => {
 
 app.post("/delete-plant", async (req, res) => {
     const id = req.body.id;
-    console.log("req.body from delete: ", req.body);
     try {
         await deletePlant(id);
         res.json({
@@ -281,8 +279,9 @@ app.post("/delete-plant", async (req, res) => {
 });
 
 /// IMAGE UPLOAD PLANT //
+
 app.post(
-    "/upload-plant-image",
+    "/upload-plant-image/",
     uploader.single("file"),
     s3.upload,
     (req, res) => {
@@ -292,7 +291,28 @@ app.post(
         if (req.file) {
             updatePlantImage(file, id)
                 .then(data => {
-                    res.json(data[0].image);
+                    req.session.plantId = null;
+                    res.json(data[0]);
+                })
+                .catch(err => {
+                    console.log("Error in uploadImage: ", err);
+                });
+        }
+    }
+);
+
+app.post(
+    "/update-plant-image/:id",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        const file = s3Url + req.file.filename,
+            id = req.params.id;
+
+        if (req.file) {
+            updatePlantImage(file, id)
+                .then(data => {
+                    res.json(data[0]);
                 })
                 .catch(err => {
                     console.log("Error in updateImage: ", err);
@@ -342,7 +362,7 @@ io.on("connection", async function(socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-    console.log("socket id: ", socket.id);
+
     const userId = socket.request.session.userId,
         userSocket = socket.id;
 

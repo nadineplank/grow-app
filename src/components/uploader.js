@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updatePlantImage, updateProfileImage } from "../actions";
+import {
+    updatePlantImage,
+    updateProfileImage,
+    uploadPlantImage
+} from "../actions";
 
-export default function Uploader({ url, setUploader, scene }) {
+export default function Uploader({ scene, setUploader, id }) {
     const dispatch = useDispatch();
     const [files, setFiles] = useState({});
 
@@ -16,13 +20,12 @@ export default function Uploader({ url, setUploader, scene }) {
         e.preventDefault();
         var formData = new FormData();
         formData.append("file", files);
-        if (url === "updatePlantImage") {
-            await dispatch(updatePlantImage(formData));
-            if (scene === "add-plant") {
-                location.assign("/");
-            } else if (scene === "plant") {
-                setUploader(false);
-            }
+        if (scene === "plantInfo") {
+            await dispatch(updatePlantImage(formData, id));
+            setUploader(false);
+        } else if (scene === "add-plant") {
+            await dispatch(uploadPlantImage(formData));
+            location.assign("/");
         } else {
             await dispatch(updateProfileImage(formData));
             setUploader(false);

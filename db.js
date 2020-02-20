@@ -110,7 +110,7 @@ exports.updatePlantImage = function(image, id) {
             `UPDATE plants
         SET image = $1
         WHERE id = $2
-        RETURNING image, id`,
+        RETURNING *`,
             [image, id]
         )
         .then(({ rows }) => rows);

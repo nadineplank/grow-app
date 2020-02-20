@@ -11,7 +11,6 @@ export default function addPlants() {
     const [values, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
     const [step, setStep] = useState(1);
-    const url = "updatePlantImage";
     const scene = "add-plant";
 
     async function add() {
@@ -146,7 +145,7 @@ export default function addPlants() {
                     </div>
                     <p className="add-plant-header">Add a photo</p>
                     {/* Uploader  */}
-                    <Uploader url={url} scene={scene} />
+                    <Uploader scene={scene} />
                     <Link to="/">
                         <button className="add-plant-button" id="upload">
                             SKIP

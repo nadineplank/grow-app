@@ -38,15 +38,35 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    if (action.type == "UPDATE_PLANT_IMAGE") {
+    if (
+        action.type == "UPDATE_PLANT_IMAGE" ||
+        action.type == "UPLOAD_PLANT_IMAGE"
+    ) {
         state = {
             ...state,
-            plant: {
-                ...state.plant,
-                image: action.image
-            }
+            plants: state.plants.map(plant => {
+                if (plant.id != action.image.id) {
+                    return plant;
+                } else {
+                    return action.image;
+                }
+            })
         };
     }
+
+    // if (action.type == "UPLOAD_PLANT_IMAGE") {
+    //     state = {
+    //         ...state,
+    //         plants: state.plants.map(plant => {
+    //             if (plant.id != action.image.id) {
+    //                 return plant;
+    //             } else {
+    //                 return action.image;
+    //             }
+    //         })
+    //     };
+    // }
+
     if (action.type == "UPDATE_PROFILE_IMAGE") {
         state = {
             ...state,

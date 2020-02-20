@@ -11,7 +11,6 @@ export default function AllPlants() {
     useEffect(() => {}, [plants]);
 
     function showInfo(e) {
-        console.log("clicked: ", e);
         setPlantPage(e);
     }
 

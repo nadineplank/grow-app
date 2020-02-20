@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getPlants, getUser } from "../actions";
 import { useDispatch } from "react-redux";
 import { Route, BrowserRouter } from "react-router-dom";

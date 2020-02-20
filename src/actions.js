@@ -2,15 +2,15 @@ import axios from "./axios";
 
 export async function getPlants(plantData) {
     // const { data } = await axios.get("/plants.json");
-    console.log("plantData from socket: ", plantData);
+
     return {
         type: "GET_PLANTS",
         plants: plantData
     };
 }
 
-export async function addPlant(id, values) {
-    const { data } = await axios.post("/plants", values);
+export async function addPlant(values) {
+    const { data } = await axios.post("/add-plant", values);
 
     return {
         type: "ADD_PLANTS",
@@ -19,9 +19,8 @@ export async function addPlant(id, values) {
 }
 
 export async function editPlant(values, id) {
-    console.log("values: ", values);
     const { data } = await axios.post(`/edit-plant/${id}`, values);
-    console.log("data from editPlant", data);
+
     return {
         type: "EDIT_PLANT",
         plantInfo: data
@@ -46,9 +45,17 @@ export async function getUser() {
     };
 }
 
-export async function updatePlantImage(formData) {
-    const { data } = await axios.post("/upload-plant-image", formData);
-    console.log(data);
+export async function uploadPlantImage(formData) {
+    const { data } = await axios.post("/upload-plant-image/", formData);
+
+    return {
+        type: "UPLOAD_PLANT_IMAGE",
+        image: data
+    };
+}
+
+export async function updatePlantImage(formData, id) {
+    const { data } = await axios.post(`/update-plant-image/${id}`, formData);
     return {
         type: "UPDATE_PLANT_IMAGE",
         image: data

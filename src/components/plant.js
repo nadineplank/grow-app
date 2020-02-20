@@ -10,8 +10,7 @@ export default function Plant({ plantInfo, showInfo }) {
     const [uploader, setUploader] = useState(false);
     const [editor, setEditor] = useState(false);
     // const id = props.match.params.id;
-    const url = "updatePlantImage";
-    const scene = "plant";
+    const scene = "plantInfo";
 
     useEffect(() => {}, [plantInfo]);
 
@@ -68,9 +67,9 @@ export default function Plant({ plantInfo, showInfo }) {
                 {uploader && (
                     <div className="plant-uploader">
                         <Uploader
-                            url={url}
-                            setUploader={setUploader}
                             scene={scene}
+                            setUploader={setUploader}
+                            id={plantInfo.id}
                         />
                     </div>
                 )}
