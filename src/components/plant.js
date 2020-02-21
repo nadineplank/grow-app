@@ -20,10 +20,12 @@ export default function Plant({ plantInfo, showInfo }) {
     return (
         <div className="plant-container">
             <div>
-                <i
-                    className="fas fa-chevron-left arrow-left"
-                    onClick={() => showInfo(false)}
-                />
+                <div className="add-plant-nav">
+                    <i
+                        className="fas fa-chevron-left arrow-left"
+                        onClick={() => showInfo(false)}
+                    />
+                </div>
                 <div className="plant-header">
                     <div className="name-type">
                         <p className="plant-name">{plantInfo.name}</p>
@@ -41,21 +43,34 @@ export default function Plant({ plantInfo, showInfo }) {
                     />
                 </div>
                 <div className="plant-information">
-                    <div className="location">
+                    <div className="info">
                         <p>{plantInfo.location}</p>
-                        <p>LOCATION</p>
+                        <p className="information-tag">LOCATION</p>
                     </div>
-                    <div className="date">
+                    <div className="info">
                         <p>{plantInfo.added_at}</p>
-                        <p>YOURS SINCE</p>
+                        <p className="information-tag">YOURS SINCE</p>
                     </div>
-
-                    <div className="next-watering">
-                        <p>Next watering scheduled for</p>
-                        <button onClick={() => showSchedule(true)}>
-                            CHANGE WATER SCHEDULE
-                        </button>
+                </div>
+                <div className="next-watering">
+                    <div className="waterInfo">
+                        <p>Last time you watered {plantInfo.name} </p>
+                        <p className="last-watered">
+                            {plantInfo.time_diff} days ago
+                        </p>
                     </div>
+                    <div className="waterInfo">
+                        <p className="water-tag">
+                            You set your reminder to remind you every{" "}
+                        </p>
+                        <p id="day"> {` ${plantInfo.reminder} days`} </p>
+                    </div>
+                    <button
+                        className="change-schedule-button"
+                        onClick={() => showSchedule(true)}
+                    >
+                        CHANGE WATER SCHEDULE
+                    </button>
                 </div>
 
                 {editor && (

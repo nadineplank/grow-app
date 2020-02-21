@@ -42,12 +42,15 @@ export default function Registration() {
             </div>
 
             <div className="btn-container">
-                <Link className="auth-btn" to="/login">
-                    log in
-                </Link>
                 <button className="auth-btn" onClick={handleSubmit}>
                     register
                 </button>
+            </div>
+            <div className="login-btn">
+                Already a memeber?
+                <Link className="login-link" to="/login">
+                    log in
+                </Link>
             </div>
         </div>
     );

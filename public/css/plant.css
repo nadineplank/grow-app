@@ -5,6 +5,7 @@
     bottom: 0;
     width: 100vw;
     background: whitesmoke;
+    overflow: hidden;
 }
 
 .plant-header {
@@ -24,24 +25,120 @@
 .plant-name {
     align-self: flex-end;
     font-size: 30px;
-    margin-bottom: 20px;
-    padding: 20px;
+    margin-bottom: 0px 20px;
+    padding: 0px 5vw;
 }
 
 .plant-edit-icon {
+    position: absolute;
+    left: 26vw;
+    top: 24vh;
+    color: goldenrod;
 }
 .plant-type {
+    padding: 0px 5vw;
+    font-size: 15px;
 }
 
 .plant-image {
     height: 200px;
+    margin: 5vw 5vw 0vw 0vw;
 }
 
 .plant-information {
+    margin: 3vh 5vw 2vh 5vw;
+    display: flex;
+    background: tan;
+    padding: 5px;
+    justify-content: space-evenly;
+    height: 8vh;
+    align-items: center;
+    color: white;
+    font-weight: 400;
 }
 
-.location {
+.information-tag {
+    font-size: 10px;
 }
 
-.date {
+.info {
+    text-align: center;
+}
+.fa-camera {
+    position: absolute;
+    right: 12vw;
+    top: 27vh;
+    border-radius: 50%;
+    padding: 7px;
+    color: white;
+    background: goldenrod;
+}
+
+.next-watering {
+    display: flex;
+    flex-direction: column;
+    margin: 5vw;
+}
+
+.waterInfo {
+    margin: 5vw 0vh 5vw 0vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.water-tag {
+    display: flex;
+}
+
+#day {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+.last-watered {
+    text-align: right;
+    color: gray;
+}
+
+.water-header {
+    position: absolute;
+    left: 1;
+    left: 40px;
+    top: -6px;
+}
+.change-schedule-button {
+    background: #622f4b;
+    border: none;
+    margin: 5vw 15vw;
+    padding: 4vw;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+}
+
+#reminder {
+    font-size: 25px;
+}
+.save {
+    width: 200px;
+    margin-top: -5px;
+    align-self: center;
+}
+
+.schedule-container {
+    position: fixed;
+    width: 100vw;
+    top: 15vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.water-input {
+    width: 75vw;
+    align-self: center;
+    margin: 40px;
+    height: 40px;
+    font-size: 18px;
 }

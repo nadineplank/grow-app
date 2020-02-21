@@ -1,0 +1,132 @@
+#header {
+    color: white;
+    letter-spacing: 0.3rem;
+    font-weight: 400;
+    font-family: "tomatoSoup";
+    font-size: 270px;
+    position: fixed;
+    top: -2vh;
+}
+
+.gif-background {
+    height: 960px;
+    width: 1440px;
+}
+
+#login {
+    display: flex;
+    justify-content: center;
+}
+
+.background-container {
+    visibility: visible;
+    z-index: -100;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.4;
+    background-color: #000;
+    z-index: -80;
+}
+
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.auth-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    overflow-x: hidden;
+    width: 95vw;
+    justify-content: space-evenly;
+    margin-top: 90px;
+}
+.auth-input {
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 10px;
+    width: 42vw;
+    height: 30px;
+    padding: 20px;
+    color: white;
+}
+
+.auth-input:focus {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: white solid 1px;
+    outline: none;
+}
+
+.auth-input::placeholder {
+    color: white;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+
+    flex-direction: column;
+}
+
+.auth-btn {
+    display: inline-block;
+    width: 200px;
+    background: none;
+    border: white solid 1.5px;
+    font-weight: 400;
+    font-family: "Montserrat-medium", sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+    padding: 17px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+
+.auth-btn:hover {
+    background: white;
+    color: black;
+    border: white solid 1.5px;
+}
+
+#reset {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 3px;
+}
+
+#reset p {
+    color: grey;
+}
+#reset a {
+    color: white;
+    text-decoration: none;
+}

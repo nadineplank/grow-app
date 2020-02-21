@@ -14,6 +14,17 @@ exports.addUser = function(first, last, email, password) {
     );
 };
 
+exports.login = function(email) {
+    return db
+        .query(
+            `SELECT *
+            FROM users
+            WHERE email = $1`,
+            [email]
+        )
+        .then(({ rows }) => rows);
+};
+
 exports.getUser = function(id) {
     return db
         .query(
@@ -72,12 +83,20 @@ exports.updateProfileImage = function(image, id) {
 
 // PLANTS
 
-exports.addPlant = function(name, type, location, user_id, date, last_watered) {
+exports.addPlant = function(
+    name,
+    type,
+    location,
+    user_id,
+    date,
+    last_watered,
+    image
+) {
     return db.query(
-        `INSERT INTO plants (name, type, location, user_id, added_at, last_watered)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        `INSERT INTO plants (name, type, location, user_id, added_at, last_watered, image)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING id`,
-        [name, type, location, user_id, date, last_watered]
+        [name, type, location, user_id, date, last_watered, image]
     );
 };
 
@@ -120,7 +139,7 @@ exports.deletePlant = function(id) {
     return db.query(
         `DELETE FROM plants
         WHERE id = $1
-         `,
+         RETURNING *`,
         [id]
     );
 };

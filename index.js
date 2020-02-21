@@ -12,6 +12,7 @@ const moment = require("moment");
 const {
     addUser,
     getUser,
+    login,
     verify,
     updatePassword,
     storeCode,
@@ -137,7 +138,7 @@ app.post("/login", async (req, res) => {
         password = req.body.password;
 
     try {
-        const data = await getUser(email);
+        const data = await login(email);
         const result = compare(password, data[0].password);
 
         if (result) {
@@ -162,7 +163,7 @@ app.post("/reset", requireLoggedOutUser, async (req, res) => {
         message = "Here is your code for reseting: " + secretCode;
 
     try {
-        const data = await getUser(email);
+        const data = await login(email);
         if (data) {
             res.json(data[0]);
             await sendEmail(email, message, "Reset your password");
@@ -242,8 +243,9 @@ app.post("/add-plant", async (req, res) => {
         location = req.body.location,
         date = req.body.date,
         user_id = req.session.userId,
-        last_watered = new Date();
-    console.log("req.body from POST add-plant", req.body);
+        last_watered = new Date(),
+        image = "default.png";
+
     try {
         const data = await addPlant(
             name,
@@ -251,9 +253,10 @@ app.post("/add-plant", async (req, res) => {
             location,
             user_id,
             date,
-            last_watered
+            last_watered,
+            image
         );
-        console.log(data.rows[0].id);
+
         req.session.plantId = data.rows[0].id;
         res.json(data);
     } catch (err) {
@@ -262,11 +265,11 @@ app.post("/add-plant", async (req, res) => {
 });
 
 app.post("/edit-plant/:id", async (req, res) => {
-    const id = req.params.id,
-        name = req.body.name,
-        type = req.body.type,
-        location = req.body.location,
-        date = req.body.date;
+    const id = req.params.id;
+    const name = req.body.values.name || req.body.plant.name;
+    const type = req.body.values.type || req.body.plant.type;
+    const location = req.body.values.location || req.body.plant.location;
+    const date = req.body.values.added_at || req.body.plant.added_at;
 
     try {
         const data = await updatePlant(name, type, location, date, id);
@@ -399,11 +402,9 @@ io.on("connection", async function(socket) {
     console.log("plantData from socket: ", plantData);
     let date = new Date();
     for (let x of plantData) {
-        console.log("x: ", x);
         let timeDiff = moment(x.last_watered).diff(date, "days");
 
         timeDiff = Math.abs(timeDiff);
-        console.log("timeDiff: ", timeDiff);
         if (timeDiff > 1) {
             setTimeDiff(x.id, timeDiff);
             if (x.time_diff >= x.reminder) {

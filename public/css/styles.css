@@ -4,6 +4,10 @@
 
     font-family: "Raleway";
 }
+@font-face {
+    font-family: "tomatoSoup";
+    src: url(../fonts/TomatoSoup-Regular.ttf) format("truetype");
+}
 
 body {
     background-color: whitesmoke;
@@ -33,7 +37,7 @@ body {
     font-size: 25px;
 }
 
-.upload-container {
+.water-schedule {
     position: absolute;
     background: whitesmoke;
     top: 0px;
@@ -42,11 +46,11 @@ body {
     width: 100vw;
 }
 
-.water-schedule {
-    position: absolute;
-    background: whitesmoke;
-    top: 0px;
-    left: 0px;
-    bottom: 0;
-    width: 100vw;
+#link {
+    text-decoration: none;
+    color: black;
+}
+
+.hidden {
+    visibility: hidden;
 }

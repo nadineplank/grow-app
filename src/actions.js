@@ -18,8 +18,11 @@ export async function addPlant(values) {
     };
 }
 
-export async function editPlant(values, id) {
-    const { data } = await axios.post(`/edit-plant/${id}`, values);
+export async function editPlant(values, plant) {
+    const { data } = await axios.post(`/edit-plant/${plant.id}`, {
+        values,
+        plant
+    });
 
     return {
         type: "EDIT_PLANT",
@@ -28,11 +31,11 @@ export async function editPlant(values, id) {
 }
 
 export async function deletePlant(id) {
-    const { data } = await axios.post("/delete-plant", { id: id });
+    await axios.post("/delete-plant", { id: id });
 
     return {
         type: "DELETE_PLANT",
-        plants: data
+        id
     };
 }
 
@@ -81,10 +84,10 @@ export async function setReminder(id, values) {
 }
 
 export async function setAsWatered(id) {
-    const { data } = await axios.post(`/mark-as-watered`, id);
+    await axios.post(`/mark-as-watered`, id);
 
     return {
         type: "MARK_AS_WATERED",
-        watered: data
+        id: id.id
     };
 }

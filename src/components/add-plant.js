@@ -134,22 +134,9 @@ export default function addPlants() {
             )}
 
             {step === 5 && (
-                <div className="add-plant-container">
-                    <div className="add-plant-nav">
-                        <i
-                            className="fas fa-chevron-left arrow-left"
-                            onClick={() => setStep(4)}
-                        />
-                        <p className="stepOf"> 5 OUT OF 5</p>
-                    </div>
-                    <p className="add-plant-header">Add a photo</p>
+                <div>
                     {/* Uploader  */}
-                    <Uploader scene={scene} />
-                    <Link to="/">
-                        <button className="add-plant-button" id="upload">
-                            SKIP
-                        </button>
-                    </Link>
+                    <Uploader scene={scene} setStep={setStep} />
                 </div>
             )}
         </div>

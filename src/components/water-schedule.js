@@ -15,22 +15,30 @@ export default function WaterSchedule({ id, showSchedule }) {
     return (
         <div>
             <div className="water-schedule">
-                <i
-                    className="fas fa-chevron-left arrow-left"
-                    onClick={() => showSchedule(false)}
-                />
-                <h1 className="water-header">Watering Schedule</h1>
+                <div className="add-plant-nav">
+                    <i
+                        className="fas fa-chevron-left arrow-left"
+                        onClick={() => showSchedule(false)}
+                    />
+                    <h1 className="water-header">Watering Schedule</h1>
+                </div>
+                <div className="schedule-container">
+                    <p id="reminder">Remind me every:</p>
 
-                <p>Remind me every:</p>
-
-                <input
-                    className="water-input"
-                    name="reminder"
-                    placeholder="1 Day"
-                    required
-                    onChange={handleChange}
-                />
-                <button onClick={setSchedule}>SAVE</button>
+                    <input
+                        className="water-input"
+                        name="reminder"
+                        placeholder="1 Day"
+                        required
+                        onChange={handleChange}
+                    />
+                    <button
+                        className="change-schedule-button save"
+                        onClick={setSchedule}
+                    >
+                        SAVE
+                    </button>
+                </div>
             </div>
         </div>
     );

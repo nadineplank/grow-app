@@ -10,22 +10,22 @@ export default function Editor({ setEditor, plant }) {
 
     async function edit(e) {
         e.preventDefault();
-        await dispatch(editPlant(values, plant.id));
+        await dispatch(editPlant(values, plant));
         setEditor(false);
     }
 
     return (
         <div className="editor">
-            <div className="editor-header-wrapper">
+            <div className="add-plant-nav">
                 <i
                     className="fas fa-chevron-left arrow-left"
                     onClick={() => setEditor(false)}
                 />
-                <h4 className="editor-header">Plant Details</h4>
+                <h1 className="editor-header">Plant Details</h1>
             </div>
 
             <div className="editor-input-container">
-                <p>Name</p>
+                <p className="editor-label">Name</p>
                 <input
                     className="editor-input"
                     name="name"
@@ -33,35 +33,35 @@ export default function Editor({ setEditor, plant }) {
                     required
                     onChange={handleChange}
                 />
-                <p>Type of Plant</p>
+                <p className="editor-label">Type of Plant</p>
                 <input
-                    className="add-plant-input"
+                    className="editor-input"
                     name="type"
                     defaultValue={plant.type}
                     required
                     onChange={handleChange}
                 />
-                <p>Location</p>
+                <p className="editor-label">Location</p>
                 <input
-                    className="add-plant-input"
+                    className="editor-input"
                     name="location"
                     defaultValue={plant.location}
                     required
                     onChange={handleChange}
                 />
-                <p>Acquisition Date</p>
+                <p className="editor-label">Acquisition Date</p>
                 <input
-                    className="add-plant-input"
+                    className="editor-input"
                     name="date"
                     defaultValue={plant.added_at}
                     type="date"
                     required
                     onChange={handleChange}
                 />
+                <button className="editor-button" onClick={e => edit(e)}>
+                    SAVE INFORMATION
+                </button>
             </div>
-            <button className="editor-button" onClick={e => edit(e)}>
-                SAVE INFORMATION
-            </button>
         </div>
     );
 }

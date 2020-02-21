@@ -21,8 +21,8 @@
 
 .add-plant-header {
     width: 80vw;
-    font-size: 32px;
-    top: 110px;
+    font-size: 38px;
+    top: 100px;
     position: absolute;
     text-align: center;
 }
@@ -36,32 +36,25 @@
 
 .add-plant-input {
     width: 85vw;
-    height: 50px;
+    height: 60px;
     border: none;
     border-bottom: 1px solid goldenrod;
     padding: 15px;
+    font-size: 15px;
+    bottom: 53vh;
+    position: fixed;
 }
 .add-plant-button {
-    width: 30vw;
+    width: 40vw;
     background: lightgray;
     border: none;
-    padding: 10px;
-    margin: 20px 0px;
+    padding: 15px;
+    bottom: 40vh;
+    position: fixed;
+    font-size: 15px;
 }
 
 .stepOf {
     text-align: center;
     width: 80vw;
-}
-
-.upload-container {
-}
-
-.upload {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid;
-    height: 250px;
-    justify-content: center;
-    width: 65vw;
 }

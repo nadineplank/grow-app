@@ -35,7 +35,7 @@ export default function AllPlants() {
                         src={plant.image}
                         key={plant.id}
                     />
-                    <p className="overview-name">{plant.name}</p>
+                    <p className="all-plants-name">{plant.name}</p>
 
                     <i className="fas fa-chevron-right all-plants-arrow-right"></i>
                 </div>

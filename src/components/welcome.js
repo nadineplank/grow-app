@@ -7,7 +7,9 @@ import ResetPassword from "./reset";
 export default function Welcome() {
     return (
         <div>
-            <div className="background-container"></div>
+            <div className="background-container">
+                <img className="gif-background" src="background0.gif" />
+            </div>
             <div className="overlay" />
             <div className="auth-container">
                 <div className="auth-wrapper">

@@ -31,6 +31,10 @@ export default function Login() {
                 <button className="auth-btn" onClick={handleSubmit}>
                     Log in
                 </button>
+                <div id="register">
+                    <p>No member? </p>
+                    <Link to="/">register</Link>
+                </div>
                 <div id="reset">
                     <p>Forgot your password?</p>
                     <Link to="/resetPassword">reset</Link>

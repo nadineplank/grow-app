@@ -1,13 +1,28 @@
 .header {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 6vw;
 }
 
 .container {
     display: flex;
     overflow-x: scroll;
     width: 100vw;
-    margin: 15px;
+    position: absolute;
+    bottom: 12vh;
+}
+
+.all-good {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 35vh;
+}
+
+.fa-exclamation-circle {
+    padding-right: 4px;
+    color: goldenrod;
 }
 
 .plants-container {
@@ -19,9 +34,9 @@
     -webkit-touch-callout: none !important;
     display: flex;
     flex-direction: column;
-    height: 200px;
-    width: 110px;
-    margin: 30px;
+    height: 250px;
+    width: 35vw;
+    margin: 10vw 5vw 8vw 5vw;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
@@ -37,6 +52,11 @@
     -moz-transform: rotate(-1deg);
 }
 
+#reminder-header {
+    margin: 8vw 0vw 2vw 0vw;
+    font-size: 15.5px;
+}
+
 .reminder-container {
     display: flex;
     flex-direction: column;
@@ -49,8 +69,8 @@
     width: 85vw;
     background: white;
     box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.5);
-    height: 10vh;
-    margin-top: 2vh;
+    height: 9vh;
+    margin: 2.5vh 0vh 0vh 0vh;
     justify-content: space-between;
     align-items: center;
 }
@@ -67,30 +87,33 @@
 .box {
     display: flex;
     flex-direction: column;
-    height: 200px;
-    width: 110px;
-    margin: 30px;
+    margin: 10vw 5vw 8vw 10vw;
     background-color: #622f4b;
     border-radius: 10px;
     box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
 }
 
 .plant-pic {
-    height: 120px;
-    width: 100px;
+    height: 75%;
+    width: 100%;
     object-fit: contain;
     border-radius: 10px;
 }
 
 .overview-name {
+    text-align: center;
+    height: 20%;
+    padding-top: 10%;
+    border-top: 1px solid lightgray;
+    margin: 5%;
 }
 
 .delete-plant-icon {
     background-color: grey;
-    margin: 25px;
+    margin: 30px 25px 25px 5px;
     position: absolute;
     z-index: 4;
-    font-size: 22px;
+    font-size: 25px;
     color: lightgrey;
     border-radius: 50%;
     border: lightgrey 0.5px solid;
@@ -98,8 +121,8 @@
 
 #add-box {
     background-color: #622f4b;
-    width: 100%;
-    height: 100%;
+    width: 35vw;
+    height: 250px;
     align-items: center;
     display: flex;
     justify-content: center;

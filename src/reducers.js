@@ -34,7 +34,13 @@ export default function reducer(state = {}, action) {
     if (action.type === "DELETE_PLANT") {
         state = {
             ...state,
-            plant: action.plant
+            plants: state.plants.filter(plant => {
+                if (plant.id !== action.id) {
+                    return {
+                        ...plant
+                    };
+                }
+            })
         };
     }
 
@@ -71,13 +77,16 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type == "MARK_AS_WATERED") {
+        console.log("action.id in reducer: ", action.id);
         state = {
             ...state,
             plants: state.plants.map(plant => {
-                if (plant.id != action.watered.id) {
-                    return plant;
+                console.log("plant.id from reducer ", plant.id);
+                if (plant.id == action.id) {
+                    console.log("found matching plant");
+                    return { ...plant, needs_water: false };
                 } else {
-                    return action.image;
+                    return { ...plant };
                 }
             })
         };

@@ -4,7 +4,6 @@ import { deletePlant } from "../actions";
 import { Link } from "react-router-dom";
 import Holdable from "./holdable";
 import Plant from "./plant";
-import WateringPlan from "./watering-plan";
 
 export default function Overview() {
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ export default function Overview() {
     );
 
     useEffect(() => {
-        console.log(waterToday);
+        console.log("state:", plants);
         if (plantPage) {
             const p = plants.find(plant => plant.id == plantPage.id);
             setPlantPage(p);
@@ -79,16 +78,22 @@ export default function Overview() {
 
     const reminder = (
         <div className="reminder-container">
-            <p>Some of your plants need to be watered</p>
+            <p id="reminder-header">
+                <i className="fas fa-exclamation-circle" />
+                Some of your plants need to be watered
+            </p>
             {waterToday.map(waterMe => (
-                <div className="water-me-box" key={waterMe.id}>
-                    <div className="water-me-wrapper">
-                        <img className="water-me-pic" src={waterMe.image} />
+                <Link id="link" to="/watering" key={waterMe.id}>
+                    <div className="water-me-box">
+                        <div className="water-me-wrapper">
+                            <img className="water-me-pic" src={waterMe.image} />
 
-                        <p className="water-me-name">{waterMe.name}</p>
+                            <p className="water-me-name">{waterMe.name}</p>
+                        </div>
+
+                        <i className="fas fa-chevron-right all-plants-arrow-right" />
                     </div>
-                    <i className="fas fa-chevron-right all-plants-arrow-right" />
-                </div>
+                </Link>
             ))}
         </div>
     );
@@ -99,8 +104,10 @@ export default function Overview() {
 
             {!!waterToday.length && reminder}
             {!waterToday.length && (
-                <div className="allGood">
-                    <p>All caught up! You are an amazing plant parent!</p>
+                <div className="all-good">
+                    <div className="all-good-container">
+                        <p>All caught up! You are an amazing plant parent!</p>
+                    </div>
                 </div>
             )}
 

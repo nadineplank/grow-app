@@ -22,30 +22,35 @@ export default function Settings() {
                 src={user.image}
                 onClick={() => setUploader(true)}
             />
-            <p className="settings-username">
-                {user.first} {user.last}
-            </p>
-            <p className="settings-email">{user.email}</p>
-            <div className="settings-password">
-                <p>Change your password</p>
-
-                <input
-                    name="currentPassword"
-                    placeholder="current password"
-                    type="password"
-                />
-
-                <input
-                    name="newPassword"
-                    placeholder="new password"
-                    type="password"
-                />
+            <div className="settings-info">
+                <p className="settings-username">
+                    {user.first} {user.last}
+                </p>
+                <p className="settings-email">{user.email}</p>
             </div>
+
             {uploader && (
                 <div className="settings-uploader">
                     <Uploader url={url} setUploader={setUploader} />
                 </div>
             )}
+
+            <a href="/logout">Log out</a>
         </div>
     );
 }
+
+// <div className="settings-password"></div>
+// <p>Change your password</p>
+//
+// <input
+// name="currentPassword"
+// placeholder="current password"
+// type="password"
+// />
+//
+// <input
+// name="newPassword"
+// placeholder="new password"
+// type="password"
+// />

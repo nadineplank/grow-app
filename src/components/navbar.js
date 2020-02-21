@@ -8,19 +8,19 @@ export default function Navbar() {
     return (
         <div className="nav-bar">
             <Link to="/" className="nav">
-                <i className="fas fa-home"></i>
+                <i className="fas fa-home" />
             </Link>
 
             <Link to="/plants" className="nav">
-                <i className="fas fa-seedling"></i>
+                <i className="fas fa-seedling" />
             </Link>
 
             <Link to="/watering" className="nav">
-                <i className="far fa-calendar-alt"></i>
+                <i className="fas fa-tint" />
             </Link>
 
             <Link to="/settings" className="nav">
-                <i className="far fa-user"></i>
+                <i className="far fa-user" />
             </Link>
         </div>
     );

@@ -6,3 +6,47 @@
     position: absolute;
     background-color: whitesmoke;
 }
+
+.editor-header {
+    position: absolute;
+    left: 1;
+    left: 40px;
+    top: -6px;
+}
+
+.editor-arrow {
+    position: fixed;
+    left: 2px;
+}
+
+.editor-input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 75vh;
+    align-items: center;
+    margin-top: 15vh;
+}
+
+.editor-label {
+    align-self: flex-start;
+    align-self: flex-start;
+    margin: 0vw 8vw;
+    font-size: 15px;
+}
+
+.editor-input {
+    width: 85vw;
+    height: 40px;
+    margin-bottom: 25px;
+}
+
+.editor-button {
+    background: #622f4b;
+    border: none;
+    margin: 5vw 15vw;
+    padding: 4vw;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+}
