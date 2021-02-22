@@ -84,13 +84,9 @@ export default function Overview() {
             </p>
             {waterToday.map(waterMe => (
                 <Link id="link" to="/watering" key={waterMe.id}>
-                    <div className="water-me-box">
-                        <div className="water-me-wrapper">
-                            <img className="water-me-pic" src={waterMe.image} />
-
-                            <p className="water-me-name">{waterMe.name}</p>
-                        </div>
-
+                    <div className="plant-info-wrapper">
+                        <img className="water-me-pic" src={waterMe.image} />
+                        <p className="water-me-name">{waterMe.name}</p>
                         <i className="fas fa-chevron-right all-plants-arrow-right" />
                     </div>
                 </Link>
@@ -115,9 +111,10 @@ export default function Overview() {
                 <div className="box">
                     <Link id="add-box" to="/addPlant">
                         <p id="add">
-                            + <br />
+                            <span style={{fontSize: 45}}>+</span><br />
                             ADD <br />
                         </p>
+                        
                     </Link>
                 </div>
                 {!!plants.length && plant}

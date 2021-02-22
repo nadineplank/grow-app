@@ -9,7 +9,6 @@ export default function Plant({ plantInfo, showInfo }) {
     const [schedule, showSchedule] = useState(false);
     const [uploader, setUploader] = useState(false);
     const [editor, setEditor] = useState(false);
-    // const id = props.match.params.id;
     const scene = "plantInfo";
 
     useEffect(() => {}, [plantInfo]);

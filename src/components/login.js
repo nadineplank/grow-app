@@ -33,11 +33,15 @@ export default function Login() {
                 </button>
                 <div id="register">
                     <p>No member? </p>
-                    <Link to="/">register</Link>
+                    <Link className="login-link" to="/">
+                        register
+                    </Link>
                 </div>
                 <div id="reset">
                     <p>Forgot your password?</p>
-                    <Link to="/resetPassword">reset</Link>
+                    <Link className="login-link" to="/resetPassword">
+                        reset
+                    </Link>
                 </div>
             </div>
         </div>

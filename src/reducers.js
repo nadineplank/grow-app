@@ -77,11 +77,9 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type == "MARK_AS_WATERED") {
-        console.log("action.id in reducer: ", action.id);
         state = {
             ...state,
             plants: state.plants.map(plant => {
-                console.log("plant.id from reducer ", plant.id);
                 if (plant.id == action.id) {
                     console.log("found matching plant");
                     return { ...plant, needs_water: false };

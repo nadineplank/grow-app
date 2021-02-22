@@ -4,7 +4,6 @@ import useStatefulFields from "../hooks/useStatefulFields";
 import { useDispatch } from "react-redux";
 
 export default function Editor({ setEditor, plant }) {
-    // const [step, setStep] = useState();
     const [values, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
 

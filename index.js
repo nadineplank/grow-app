@@ -259,6 +259,7 @@ app.post("/add-plant", async (req, res) => {
 
         req.session.plantId = data.rows[0].id;
         res.json(data);
+        console.log('data from add plant:' ,data);
     } catch (err) {
         console.log("error in addPlant: ", err);
     }
@@ -399,7 +400,8 @@ io.on("connection", async function(socket) {
 
     let plantData = await getPlants(userId);
 
-    console.log("plantData from socket: ", plantData);
+    /////  CHECK IF PLANTS NEED WATER /////
+
     let date = new Date();
     for (let x of plantData) {
         let timeDiff = moment(x.last_watered).diff(date, "days");

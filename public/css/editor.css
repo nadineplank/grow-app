@@ -17,6 +17,7 @@
 .editor-arrow {
     position: fixed;
     left: 2px;
+    cursor: pointer;
 }
 
 .editor-input-container {

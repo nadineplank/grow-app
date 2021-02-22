@@ -40,6 +40,7 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
 }
 
 .wobble {
@@ -64,16 +65,6 @@
     align-items: center;
 }
 
-.water-me-box {
-    display: flex;
-    width: 85vw;
-    background: white;
-    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.5);
-    height: 9vh;
-    margin: 2.5vh 0vh 0vh 0vh;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .water-me-wrapper {
     display: flex;
@@ -81,7 +72,9 @@
 }
 
 .water-me-pic {
-    height: 8vh;
+    height: 100%;
+    padding-left: 2vw;
+    object-fit: contain;
 }
 
 .box {
@@ -94,10 +87,24 @@
 }
 
 .plant-pic {
-    height: 75%;
+    height: 80%;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+.water-info-wrapper {
+    display: flex;
+    width: 85vw;
+    background: white;
+    height: 20vw;
+    margin: 2vh 0;
     border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.5);
 }
 
 .overview-name {
@@ -105,7 +112,7 @@
     height: 20%;
     padding-top: 10%;
     border-top: 1px solid lightgray;
-    margin: 5%;
+    
 }
 
 .delete-plant-icon {

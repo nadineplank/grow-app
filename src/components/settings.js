@@ -17,16 +17,16 @@ export default function Settings() {
 
     return (
         <div className="settings-container">
-            <img
-                className="user-image"
-                src={user.image}
-                onClick={() => setUploader(true)}
-            />
             <div className="settings-info">
+                <img
+                    className="user-image"
+                    src={user.image}
+                    onClick={() => setUploader(true)}
+                />
                 <p className="settings-username">
-                    {user.first} {user.last}
+                    {user.first} {user.last}<br/>
+                    {user.email}
                 </p>
-                <p className="settings-email">{user.email}</p>
             </div>
 
             {uploader && (
@@ -35,7 +35,7 @@ export default function Settings() {
                 </div>
             )}
 
-            <a href="/logout">Log out</a>
+            <a href="/logout" style={{color: 'black', fontSize: 20}}>Log out</a>
         </div>
     );
 }

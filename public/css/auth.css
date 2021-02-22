@@ -32,7 +32,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    opacity: 0.4;
+    opacity: 0.1;
     background-color: #000;
     z-index: -80;
 }
@@ -59,19 +59,22 @@
     display: flex;
     flex-wrap: wrap;
     margin: 20px;
+    margin-top: 90px;
+    margin-bottom: 30px;
     overflow-x: hidden;
     width: 95vw;
     justify-content: space-evenly;
-    margin-top: 90px;
 }
 .auth-input {
     border: none;
     background: rgba(255, 255, 255, 0.2);
     margin: 10px;
+    margin-bottom: 15px;
     width: 42vw;
     height: 30px;
     padding: 20px;
     color: white;
+    z-index: 7;
 }
 
 .auth-input:focus {
@@ -87,7 +90,7 @@
 .btn-container {
     display: flex;
     justify-content: center;
-
+    align-items: center;
     flex-direction: column;
 }
 
@@ -102,6 +105,7 @@
     text-transform: uppercase;
     letter-spacing: 0.3rem;
     padding: 17px;
+    margin-bottom: 5px;
     color: white;
     text-decoration: none;
     text-align: center;
@@ -129,4 +133,22 @@
 #reset a {
     color: white;
     text-decoration: none;
+}
+.login-btn {
+    align-items: center;
+    color: white;
+}
+
+.login-link {
+    color: white;
+    text-decoration: none;
+    padding-left: 5px;
+}
+
+#register {
+    display: flex;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    align-items: center;
 }

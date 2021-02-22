@@ -27,7 +27,7 @@ export default function AllPlants() {
             {plants.map(plant => (
                 <div
                     key={plant.id}
-                    className="info-wrapper"
+                    className="plant-info-wrapper"
                     onClick={() => showInfo(plant)}
                 >
                     <img

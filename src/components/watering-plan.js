@@ -31,7 +31,7 @@ export default function WateringPlan() {
         <div className="all-plants-container">
             <p className="all-plants-header">Water your plants </p>
             {plants.map(plant => (
-                <div key={plant.id}>
+                <div key={plant.id} className='water--plan--container'>
                     <input
                         key={plant.id}
                         type="radio"
@@ -39,9 +39,9 @@ export default function WateringPlan() {
                         value={plant.id}
                         onChange={handleChange}
                     />
-                    <div className="info-wrapper">
-                        <img className="all-plants-pic" src={plant.image} />
-                        <p className="overview-name">{plant.name}</p>
+                    <div className="plant-info-wrapper" style={{width: '70vw'}}>
+                        <img className="water-me-pic" src={plant.image} />
+                        <p className="all-plants-name">{plant.name}</p>
 
                         <i
                             className="fas fa-chevron-right all-plants-arrow-right"
@@ -51,8 +51,8 @@ export default function WateringPlan() {
                 </div>
             ))}
 
-            <button className="add-plant-button" onClick={setWatered}>
-                Mark as watered today
+            <button className="water-button" onClick={setWatered}>
+                Mark as watered
             </button>
             {plantPage && <Plant plantInfo={plantPage} showInfo={showInfo} />}
         </div>

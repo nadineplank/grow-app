@@ -1,0 +1,20 @@
+.water-button {
+    position: absolute;
+    bottom: 100px;
+    width: 70vw;
+    background: #622f4b;
+    border: none;
+    padding: 4vw;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 36px -10px rgba(0, 0, 0, 0.75);
+}
+
+.water--plan--container {
+    display: flex;
+    width: 90vw;
+    justify-content: space-around;
+    align-items: center;
+}
+
+

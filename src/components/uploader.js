@@ -11,8 +11,6 @@ export default function Uploader({ scene, setUploader, id, setStep }) {
     const dispatch = useDispatch();
     const [files, setFiles] = useState({});
 
-    // const dispatch = useDispatch();
-
     async function handleChange(e) {
         setFiles(e.target.files[0]);
     }
@@ -69,6 +67,7 @@ export default function Uploader({ scene, setUploader, id, setStep }) {
                     type="file"
                     accept="image/*"
                     onChange={e => handleChange(e)}
+                    style={{margin: '0 10px'}}
                 />
             </div>
             <button
